@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { ProductService } from '../../services/productService';
 import { PuffLoader } from 'react-spinners';
+import SEO from '../components/common/SEO';
 
 const ProductCategories = () => {
     const navigate = useNavigate();

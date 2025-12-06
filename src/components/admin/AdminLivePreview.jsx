@@ -8,7 +8,8 @@ export default function AdminLivePreview({
     existingImages,
     features,
     specSheet,
-    existingSpecSheet
+    existingSpecSheet,
+    manualSpecSheet
 }) {
     // Helper to properly handle File objects vs URL strings
     const getPreviewUrl = (item) => {
@@ -83,7 +84,7 @@ export default function AdminLivePreview({
                         <button className="w-full py-2 bg-[#0071e3] text-white rounded-full text-sm font-medium hover:bg-[#0077ed] transition-colors">
                             Contact Sales
                         </button>
-                        {(specSheet || existingSpecSheet) && (
+                        {(specSheet || existingSpecSheet || manualSpecSheet) && (
                             <button className="w-full py-2 border border-gray-300 text-[#1d1d1f] rounded-full text-sm font-medium hover:border-gray-800 transition-colors">
                                 Download Spec Sheet
                             </button>

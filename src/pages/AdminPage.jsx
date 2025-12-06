@@ -158,7 +158,7 @@ export default function AdminPage() {
         setUploading(true);
         setMessage('');
 
-        const { editId, name, description, category, images, existingImages, features, specSheet, existingSpecSheet } = formData;
+        const { editId, name, description, category, images, existingImages, features, specSheet, existingSpecSheet, manualSpecSheet } = formData;
 
         try {
             // 1. Upload New Images (if any)
@@ -186,7 +186,8 @@ export default function AdminPage() {
             const finalImages = [...existingImages, ...newImageUrls];
 
             // 1b. Upload Spec Sheet (if present)
-            let specSheetUrl = existingSpecSheet;
+            // Prioritize: 1. New File Upload (handled below), 2. New Manual URL, 3. Existing URL
+            let specSheetUrl = manualSpecSheet || existingSpecSheet;
             if (specSheet) {
                 try {
                     specSheetUrl = await ProductService.uploadFile(specSheet, 'spec-sheets');
@@ -313,6 +314,7 @@ export default function AdminPage() {
                                     features={formData.features}
                                     specSheet={formData.specSheet}
                                     existingSpecSheet={formData.existingSpecSheet}
+                                    manualSpecSheet={formData.manualSpecSheet}
                                 />
                             </div>
                         </div>
