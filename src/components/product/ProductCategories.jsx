@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { ProductService } from '../../services/productService';
+import { PuffLoader } from 'react-spinners';
 
 const ProductCategories = () => {
     const navigate = useNavigate();
@@ -36,11 +37,9 @@ const ProductCategories = () => {
 
     if (loading) {
         return (
-            <section className="py-20 bg-[#f5f5f7]">
-                <div className="max-w-[1200px] mx-auto px-6 lg:px-8 text-center">
-                    <p className="text-gray-500">Loading categories...</p>
-                </div>
-            </section>
+            <div className="fixed inset-0 z-50 flex justify-center items-center bg-[#f5f5f7]">
+                <PuffLoader color="#2563eb" size={60} speedMultiplier={0.8} />
+            </div>
         );
     }
 

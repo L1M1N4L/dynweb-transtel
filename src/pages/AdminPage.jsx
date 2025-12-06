@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthService } from '../services/authService';
 import { ProductService } from '../services/productService';
 import { productData } from '../data/productData'; // For categories
+import { PuffLoader } from 'react-spinners';
 
 import AdminProductForm from '../components/admin/AdminProductForm';
 import AdminProductList from '../components/admin/AdminProductList';
@@ -243,7 +244,12 @@ export default function AdminPage() {
         setActiveTab(tab);
     }
 
-    if (loading) return <div className="p-20 text-center">Loading Admin Panel...</div>;
+    if (loading) return (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gray-50">
+            <PuffLoader color="#2563eb" size={60} speedMultiplier={0.8} />
+            <span className="mt-4 text-gray-500 text-sm font-medium">Loading Admin Panel...</span>
+        </div>
+    );
     if (!user) return null;
 
     // Use managed categories for dropdown, fall back to simple list

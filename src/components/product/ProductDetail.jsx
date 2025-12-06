@@ -30,7 +30,11 @@ export default function ProductDetail() {
         fetchData();
     }, [category, productId]);
 
-    if (loading) return <div className="py-20 text-center">Loading...</div>;
+    if (loading) return (
+        <div className="fixed inset-0 z-50 flex justify-center items-center bg-white">
+            <PuffLoader color="#2563eb" size={60} speedMultiplier={0.8} />
+        </div>
+    );
     if (!product) return <div className="py-20 text-center">Product not found</div>;
 
     // Handle Category Click for sidebar

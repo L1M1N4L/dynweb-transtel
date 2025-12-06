@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { PuffLoader } from 'react-spinners';
 import { ProductService } from '../../services/productService';
 import { Link } from 'react-router-dom';
 
@@ -21,7 +22,11 @@ export default function Products() {
         fetchProducts();
     }, []);
 
-    if (loading) return null; // Or a streamlined loader
+    if (loading) return (
+        <div className="fixed inset-0 z-50 flex justify-center items-center bg-white">
+            <PuffLoader color="#2563eb" size={60} speedMultiplier={0.8} />
+        </div>
+    );
 
     return (
         <section id="product" className="py-16 px-6 bg-white">

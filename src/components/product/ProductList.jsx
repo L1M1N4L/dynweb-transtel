@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { ProductService } from '../../services/productService';
+import { PuffLoader } from 'react-spinners';
 
 import CategorySidebar from './CategorySidebar';
 
@@ -41,6 +42,12 @@ export default function ProductList() {
     const handleCategoryClick = (catId) => {
         navigate(`/product/${catId}`);
     };
+
+    if (loading) return (
+        <div className="fixed inset-0 z-50 flex justify-center items-center bg-white">
+            <PuffLoader color="#2563eb" size={60} speedMultiplier={0.8} />
+        </div>
+    );
 
     if (loading) return <div className="py-32 text-center text-gray-500">Loading products...</div>;
 
