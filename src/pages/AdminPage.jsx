@@ -269,6 +269,7 @@ export default function AdminPage() {
                 activeTab={activeTab}
                 setActiveTab={handleTabChange}
                 onLogout={handleLogout}
+                user={user}
             />
 
             {/* Main Content */}
