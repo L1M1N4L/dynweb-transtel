@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /secure-dashboard
+
+Sitemap: https://dynweb-transtel.vercel.app/sitemap.xml

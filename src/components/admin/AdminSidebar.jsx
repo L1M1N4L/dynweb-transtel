@@ -1,9 +1,10 @@
 import React from 'react';
-import { LayoutDashboard, PlusCircle, LogOut, LayoutGrid } from 'lucide-react';
+import { LayoutDashboard, PlusCircle, LogOut, LayoutGrid, BarChart3 } from 'lucide-react';
 import logoGrey from '../../assets/logo-grey.svg';
 
 export default function AdminSidebar({ activeTab, setActiveTab, onLogout }) {
     const menuItems = [
+        { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
         { id: 'add', label: 'Add Product', icon: PlusCircle },
         { id: 'manage', label: 'Manage Products', icon: LayoutDashboard },
         { id: 'categories', label: 'Categories', icon: LayoutGrid },

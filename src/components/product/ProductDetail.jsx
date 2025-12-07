@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { ProductService } from '../../services/productService';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { PuffLoader } from 'react-spinners';
 import CategorySidebar from './CategorySidebar';
-import SEO from '../components/common/SEO';
+import SEO from '../common/SEO';
 
 export default function ProductDetail() {
     const { category, productId } = useParams();
@@ -20,6 +21,8 @@ export default function ProductDetail() {
                     ProductService.getProductById(category, productId),
                     ProductService.getAllCategories()
                 ]);
+                console.log('Product Data:', prodData); // Debug: Check what data we're getting
+                console.log('Spec Sheet URL:', prodData?.specSheetUrl); // Debug: Check spec sheet specifically
                 setProduct(prodData);
                 setCategories(catsData);
             } catch (error) {

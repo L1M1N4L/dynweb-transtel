@@ -32,3 +32,36 @@ export const convertGoogleDriveLink = (url) => {
         return url;
     }
 };
+
+// Convert Google Drive links for PDFs (different format than images)
+export const convertGoogleDrivePdfLink = (url) => {
+    if (!url) return '';
+
+    try {
+        // Check if it's a Google Drive link
+        if (url.includes('drive.google.com')) {
+            // Extract File ID
+            let id = '';
+
+            const parts = url.split('/');
+            const dIndex = parts.indexOf('d');
+
+            if (dIndex !== -1 && parts[dIndex + 1]) {
+                id = parts[dIndex + 1];
+            } else if (url.includes('id=')) {
+                id = new URL(url).searchParams.get('id');
+            }
+
+            if (id) {
+                // Return direct view link for PDFs (opens in browser, allows download)
+                // Using 'uc?export=view' for preview with download option
+                return `https://drive.google.com/file/d/${id}/preview`;
+            }
+        }
+        return url;
+    } catch (e) {
+        console.error("Error converting Drive PDF link", e);
+        return url;
+    }
+};
+

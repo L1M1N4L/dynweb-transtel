@@ -4,6 +4,7 @@ import { AuthService } from '../services/authService';
 import { ProductService } from '../services/productService';
 import { productData } from '../data/productData'; // For categories
 import { PuffLoader } from 'react-spinners';
+import { convertGoogleDrivePdfLink } from '../utils/urlHelper';
 
 import AdminProductForm from '../components/admin/AdminProductForm';
 import AdminProductList from '../components/admin/AdminProductList';
@@ -11,14 +12,15 @@ import AdminLivePreview from '../components/admin/AdminLivePreview';
 import AdminSidebar from '../components/admin/AdminSidebar';
 import AdminCategoryList from '../components/admin/AdminCategoryList';
 import AdminCategoryForm from '../components/admin/AdminCategoryForm';
+import AdminDashboard from '../components/admin/AdminDashboard';
 
 export default function AdminPage() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Sidebar State: 'add', 'manage', 'categories'
-    const [activeTab, setActiveTab] = useState('add');
+    // Sidebar State: 'dashboard', 'add', 'manage', 'categories'
+    const [activeTab, setActiveTab] = useState('dashboard');
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
 
@@ -187,7 +189,7 @@ export default function AdminPage() {
 
             // 1b. Upload Spec Sheet (if present)
             // Prioritize: 1. New File Upload (handled below), 2. New Manual URL, 3. Existing URL
-            let specSheetUrl = manualSpecSheet || existingSpecSheet;
+            let specSheetUrl = manualSpecSheet ? convertGoogleDrivePdfLink(manualSpecSheet) : existingSpecSheet;
             if (specSheet) {
                 try {
                     specSheetUrl = await ProductService.uploadFile(specSheet, 'spec-sheets');
@@ -274,13 +276,15 @@ export default function AdminPage() {
                 <div className="max-w-[1400px] w-full mx-auto p-8 lg:p-12">
                     <header className="mb-10">
                         <h1 className="text-3xl font-bold text-[#1d1d1f] tracking-tight">
+                            {activeTab === 'dashboard' && 'Dashboard'}
                             {activeTab === 'add' && (formData.editId ? 'Edit Product' : 'Add New Product')}
                             {activeTab === 'manage' && 'Manage Products'}
                             {activeTab === 'categories' && 'Manage Categories'}
                         </h1>
                         <p className="text-[#86868b] mt-2">
+                            {activeTab === 'dashboard' && 'Overview of your product catalog and analytics.'}
                             {activeTab === 'add' && 'Fill in the details below to add or update a product in your catalog.'}
-                            {activeTab === 'manage' && 'View, edit, or delete existing products from your inventory.'}
+                            {activeTab === 'manage' && 'View, edit, or delete existing products from your catalog.'}
                             {activeTab === 'categories' && 'Create and customize product categories with icons and backgrounds.'}
                         </p>
                     </header>
@@ -290,6 +294,10 @@ export default function AdminPage() {
                             {message.includes('success') && <span>✓</span>}
                             {message}
                         </div>
+                    )}
+
+                    {activeTab === 'dashboard' && (
+                        <AdminDashboard products={products} categories={categories} />
                     )}
 
                     {activeTab === 'add' && (
