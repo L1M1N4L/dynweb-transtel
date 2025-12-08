@@ -137,6 +137,7 @@ function ProductCard({ product, categoryId }) {
                         src={product.image || "https://i.imgur.com/Cjq8e8g.png"}
                         alt={product.name}
                         className="w-full h-full object-cover transition-transform duration-500 cubic-bezier(0.4, 0, 0.2, 1) group-hover:scale-105"
+                        referrerPolicy="no-referrer"
                     />
                 </div>
                 <div className="p-6 flex flex-col flex-grow">

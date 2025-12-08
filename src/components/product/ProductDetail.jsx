@@ -12,6 +12,7 @@ export default function ProductDetail() {
     const [product, setProduct] = useState(null);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [mainImage, setMainImage] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,6 +26,8 @@ export default function ProductDetail() {
                 console.log('Spec Sheet URL:', prodData?.specSheetUrl); // Debug: Check spec sheet specifically
                 setProduct(prodData);
                 setCategories(catsData);
+                // Set initial main image
+                setMainImage(prodData?.image || prodData?.images?.[0] || "https://i.imgur.com/Cjq8e8g.png");
             } catch (error) {
                 console.error("Failed to fetch data", error);
             } finally {
@@ -72,8 +75,8 @@ export default function ProductDetail() {
                         {/* Left: Images */}
                         <div className="space-y-6">
                             <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-[#f5f5f7] border border-[rgba(0,0,0,0.08)] flex items-center justify-center">
-                                {product.image ? (
-                                    <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                                {mainImage ? (
+                                    <img src={mainImage} alt={product.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                                 ) : (
                                     <div className="text-center p-8">
                                         <h2 className="text-3xl font-bold mb-2 text-[#1d1d1f]">{product.name}</h2>
@@ -107,12 +110,14 @@ export default function ProductDetail() {
                                     id="gallery-scroll"
                                     className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent"
                                 >
-                                    {[...(product.images || [product.image || "https://i.imgur.com/Cjq8e8g.png"]), ...(product.images || [product.image || "https://i.imgur.com/Cjq8e8g.png"])].map((img, i) => (
+                                    {(product.images || [product.image || "https://i.imgur.com/Cjq8e8g.png"]).map((img, i) => (
                                         <div
                                             key={i}
-                                            className="w-32 h-32 flex-shrink-0 rounded-xl bg-[#f5f5f7] border border-[rgba(0,0,0,0.08)] cursor-pointer hover:border-black transition-all duration-300 overflow-hidden snap-center"
+                                            onClick={() => setMainImage(img)}
+                                            className={`w-32 h-32 flex-shrink-0 rounded-xl bg-[#f5f5f7] border-2 cursor-pointer hover:border-black transition-all duration-300 overflow-hidden snap-center ${mainImage === img ? 'border-black' : 'border-[rgba(0,0,0,0.08)]'
+                                                }`}
                                         >
-                                            <img src={img} alt={`Product view ${i}`} className="w-full h-full object-cover" />
+                                            <img src={img} alt={`Product view ${i}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                                         </div>
                                     ))}
                                 </div>
