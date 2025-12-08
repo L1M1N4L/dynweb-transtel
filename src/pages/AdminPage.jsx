@@ -5,6 +5,7 @@ import { ProductService } from '../services/productService';
 import { productData } from '../data/productData'; // For categories
 import { PuffLoader } from 'react-spinners';
 import { convertGoogleDrivePdfLink } from '../utils/urlHelper';
+import toast, { Toaster } from 'react-hot-toast';
 
 import AdminProductForm from '../components/admin/AdminProductForm';
 import AdminProductList from '../components/admin/AdminProductList';
@@ -13,6 +14,7 @@ import AdminSidebar from '../components/admin/AdminSidebar';
 import AdminCategoryList from '../components/admin/AdminCategoryList';
 import AdminCategoryForm from '../components/admin/AdminCategoryForm';
 import AdminDashboard from '../components/admin/AdminDashboard';
+import AdminContactList from '../components/admin/AdminContactList';
 
 export default function AdminPage() {
     const navigate = useNavigate();
@@ -150,8 +152,14 @@ export default function AdminPage() {
 
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this product?")) {
-            await ProductService.deleteProduct(id);
-            fetchProducts();
+            try {
+                await ProductService.deleteProduct(id);
+                toast.success('Product deleted successfully!');
+                fetchProducts();
+            } catch (error) {
+                console.error('Delete failed:', error);
+                toast.error('Failed to delete product.');
+            }
         }
     };
 
@@ -219,17 +227,17 @@ export default function AdminPage() {
             // 3. Save to Firestore
             if (editId) {
                 await ProductService.updateProduct(editId, productData);
-                setMessage('Product updated successfully!');
+                toast.success('Product updated successfully!');
             } else {
                 await ProductService.addProduct(productData);
-                setMessage('Product created successfully!');
+                toast.success('Product created successfully!');
             }
 
             resetForm();
             fetchProducts();
         } catch (error) {
             console.error('Operation failed:', error);
-            setMessage('Failed to save product. Check console.');
+            toast.error('Failed to save product. Check console.');
         } finally {
             setUploading(false);
         }
@@ -264,6 +272,33 @@ export default function AdminPage() {
 
     return (
         <div className="flex min-h-screen bg-[#f5f5f7] font-sans">
+            <Toaster
+                position="top-right"
+                toastOptions={{
+                    duration: 3000,
+                    style: {
+                        background: '#fff',
+                        color: '#1f2937',
+                        border: '1px solid #e5e7eb',
+                        padding: '16px',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                    },
+                    success: {
+                        iconTheme: {
+                            primary: '#10b981',
+                            secondary: '#fff',
+                        },
+                    },
+                    error: {
+                        iconTheme: {
+                            primary: '#ef4444',
+                            secondary: '#fff',
+                        },
+                    },
+                }}
+            />
+
             {/* Sidebar */}
             <AdminSidebar
                 activeTab={activeTab}
@@ -281,12 +316,14 @@ export default function AdminPage() {
                             {activeTab === 'add' && (formData.editId ? 'Edit Product' : 'Add New Product')}
                             {activeTab === 'manage' && 'Manage Products'}
                             {activeTab === 'categories' && 'Manage Categories'}
+                            {activeTab === 'contacts' && 'Contact Submissions'}
                         </h1>
                         <p className="text-[#86868b] mt-2">
                             {activeTab === 'dashboard' && 'Overview of your product catalog and analytics.'}
                             {activeTab === 'add' && 'Fill in the details below to add or update a product in your catalog.'}
                             {activeTab === 'manage' && 'View, edit, or delete existing products from your catalog.'}
                             {activeTab === 'categories' && 'Create and customize product categories with icons and backgrounds.'}
+                            {activeTab === 'contacts' && 'View and manage customer inquiries from the contact form.'}
                         </p>
                     </header>
 
@@ -356,6 +393,10 @@ export default function AdminPage() {
                                 </div>
                             )}
                         </div>
+                    )}
+
+                    {activeTab === 'contacts' && (
+                        <AdminContactList />
                     )}
                 </div>
             </main>

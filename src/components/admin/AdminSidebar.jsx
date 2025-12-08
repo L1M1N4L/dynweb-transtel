@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, PlusCircle, LogOut, LayoutGrid, BarChart3 } from 'lucide-react';
+import { LayoutDashboard, PlusCircle, LogOut, LayoutGrid, BarChart3, Mail } from 'lucide-react';
 import logoGrey from '../../assets/logo-grey.svg';
 
 export default function AdminSidebar({ activeTab, setActiveTab, onLogout, user }) {
@@ -8,6 +8,7 @@ export default function AdminSidebar({ activeTab, setActiveTab, onLogout, user }
         { id: 'add', label: 'Add Product', icon: PlusCircle },
         { id: 'manage', label: 'Manage Products', icon: LayoutDashboard },
         { id: 'categories', label: 'Categories', icon: LayoutGrid },
+        { id: 'contacts', label: 'Contact Submissions', icon: Mail },
     ];
 
     return (
