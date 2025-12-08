@@ -9,7 +9,7 @@ export default function ContactPage() {
         firstName: '',
         lastName: '',
         email: '',
-        countryCode: 'US',
+        countryCode: '',
         phone: '',
         message: ''
     });
@@ -225,7 +225,7 @@ export default function ContactPage() {
                 firstName: '',
                 lastName: '',
                 email: '',
-                countryCode: 'US',
+                countryCode: '',
                 phone: '',
                 message: ''
             });
@@ -308,12 +308,14 @@ export default function ContactPage() {
                                     disabled={isSubmitting}
                                     className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    <option>US</option>
-                                    <option>ID</option>
-                                    <option>TW</option>
-                                    <option>AU</option>
-                                    <option>NZ</option>
-                                    <option>LK</option>
+                                    <option value="">Code</option>
+                                    <option value="US">US</option>
+                                    <option value="ID">ID</option>
+                                    <option value="TW">TW</option>
+                                    <option value="AU">AU</option>
+                                    <option value="NZ">NZ</option>
+                                    <option value="LK">LK</option>
+                                    <option value="Others">Others</option>
                                 </select>
                                 <input
                                     type="tel"
