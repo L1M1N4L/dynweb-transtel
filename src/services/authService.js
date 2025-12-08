@@ -25,6 +25,10 @@ export const AuthService = {
         return onAuthStateChanged(auth, callback);
     },
 
+    getCurrentUser: () => {
+        return auth.currentUser;
+    },
+
     // Check if user has admin role in Firestore
     checkAdminRole: async (uid) => {
         const { db } = await import('../firebase');
