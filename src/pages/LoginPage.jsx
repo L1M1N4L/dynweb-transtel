@@ -1,95 +1,169 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthService } from '../services/authService';
+import logoGrey from '../assets/logo-grey.svg';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoading(true);
+
         try {
             const result = await AuthService.login(email, password);
             // Check role
             const isAdmin = await AuthService.checkAdminRole(result.user.uid);
             if (isAdmin) {
+                toast.success('Welcome back!');
                 navigate('/secure-dashboard');
             } else {
                 await AuthService.logout();
-                setError('Access Denied: Not an administrator.');
+                toast.error('Access Denied: Not an administrator.');
             }
         } catch (err) {
-            setError('Failed to login. Check your credentials.');
+            toast.error('Failed to login. Check your credentials.');
             console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        setLoading(true);
+
+        try {
+            const result = await AuthService.loginWithGoogle();
+            // Check role immediately
+            const isAdmin = await AuthService.checkAdminRole(result.user.uid);
+            if (isAdmin) {
+                toast.success('Welcome back!');
+                navigate('/secure-dashboard');
+            } else {
+                await AuthService.logout();
+                toast.error('Access Denied: You do not have administrator privileges.');
+            }
+        } catch (err) {
+            toast.error('Failed to sign in with Google.');
+            console.error(err);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 pt-20">
-            <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-6 text-center">Admin Login</h2>
-                {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">{error}</div>}
+        <div className="min-h-screen w-full bg-white flex items-center justify-center p-6 relative overflow-hidden">
+            <Toaster
+                position="top-center"
+                toastOptions={{
+                    duration: 4000,
+                    style: {
+                        background: '#fff',
+                        color: '#1f2937',
+                        border: '1px solid #e5e7eb',
+                        padding: '16px',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                    },
+                    success: {
+                        iconTheme: {
+                            primary: '#10b981',
+                            secondary: '#fff',
+                        },
+                    },
+                    error: {
+                        iconTheme: {
+                            primary: '#ef4444',
+                            secondary: '#fff',
+                        },
+                    },
+                }}
+            />
+
+            {/* Subtle gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 via-white to-gray-50/30 pointer-events-none"></div>
+
+            {/* Floating elements - very subtle */}
+            <div className="absolute top-20 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
+
+            {/* Main container */}
+            <div className="relative z-10 w-full max-w-md">
+                {/* Logo */}
+                <div className="text-center mb-10">
+                    <img src={logoGrey} alt="Transtel Communications" className="h-10 mx-auto mb-3" />
+                    <p className="text-base text-gray-500">Sign in to continue</p>
+                </div>
+
+                {/* Login form */}
                 <form onSubmit={handleLogin} className="space-y-4">
+                    {/* Email field */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Email</label>
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-200"
+                            placeholder="Email"
                             required
+                            disabled={loading}
                         />
                     </div>
+
+                    {/* Password field */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Password</label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-200"
+                            placeholder="Password"
                             required
+                            disabled={loading}
                         />
                     </div>
+
+                    {/* Sign in button */}
                     <button
                         type="submit"
-                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        disabled={loading}
+                        className="w-full mt-6 py-3.5 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white text-base font-medium rounded-xl transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-blue-500/20 disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                        Sign In
+                        {loading ? (
+                            <span className="flex items-center justify-center">
+                                <svg className="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Signing in...
+                            </span>
+                        ) : (
+                            'Sign In'
+                        )}
                     </button>
                 </form>
 
-                <div className="relative my-6">
+                {/* Divider */}
+                <div className="relative my-8">
                     <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-300"></div>
+                        <div className="w-full border-t border-gray-200"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                        <span className="px-4 bg-white text-gray-500">or</span>
                     </div>
                 </div>
 
+                {/* Google button */}
                 <button
-                    type="button"
-                    onClick={async () => {
-                        try {
-                            const result = await AuthService.loginWithGoogle();
-                            // Check role immediately
-                            const isAdmin = await AuthService.checkAdminRole(result.user.uid);
-                            if (isAdmin) {
-                                navigate('/secure-dashboard');
-                            } else {
-                                await AuthService.logout();
-                                setError('Access Denied: You do not have administrator privileges.');
-                            }
-                        } catch (err) {
-                            setError('Failed to sign in with Google.');
-                            console.error(err);
-                        }
-                    }}
-                    className="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    onClick={handleGoogleLogin}
+                    disabled={loading}
+                    className="w-full py-3.5 bg-white border border-gray-200 hover:bg-gray-50 active:bg-gray-100 text-gray-900 text-base font-medium rounded-xl transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-gray-200/50 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                 >
-                    <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
+                    <svg className="h-5 w-5" viewBox="0 0 24 24">
                         <path
                             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                             fill="#4285F4"
@@ -109,6 +183,11 @@ export default function LoginPage() {
                     </svg>
                     Sign in with Google
                 </button>
+
+                {/* Legal text */}
+                <p className="mt-12 text-center text-xs text-gray-400">
+                    © 2024 Transtel Communications. All rights reserved.
+                </p>
             </div>
         </div>
     );

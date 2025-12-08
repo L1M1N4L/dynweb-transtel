@@ -12,6 +12,7 @@ import SupportPage from './pages/SupportPage';
 import ContactPage from './pages/ContactPage';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 
 export default function App() {
   return (
@@ -29,7 +30,14 @@ export default function App() {
           <Route path="support" element={<SupportPage />} />
           <Route path="contact" element={<ContactPage />} />
         </Route>
-        <Route path="/secure-dashboard" element={<AdminPage />} />
+        <Route
+          path="/secure-dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
