@@ -4,15 +4,21 @@ import {
     signOut,
     onAuthStateChanged,
     GoogleAuthProvider,
-    signInWithPopup
+    signInWithPopup,
+    setPersistence,
+    browserLocalPersistence
 } from 'firebase/auth';
 
 export const AuthService = {
-    login: (email, password) => {
+    login: async (email, password) => {
+        // Set persistence to LOCAL so session persists even after browser close
+        await setPersistence(auth, browserLocalPersistence);
         return signInWithEmailAndPassword(auth, email, password);
     },
 
-    loginWithGoogle: () => {
+    loginWithGoogle: async () => {
+        // Set persistence to LOCAL so session persists even after browser close
+        await setPersistence(auth, browserLocalPersistence);
         const provider = new GoogleAuthProvider();
         return signInWithPopup(auth, provider);
     },

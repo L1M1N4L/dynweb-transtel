@@ -8,10 +8,9 @@ export default function ProtectedRoute({ children }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const checkAuth = async () => {
+        // Subscribe to auth state changes instead of checking once
+        const unsubscribe = AuthService.subscribeToAuthChanges(async (user) => {
             try {
-                const user = AuthService.getCurrentUser();
-
                 if (!user) {
                     setIsAuthorized(false);
                     setLoading(false);
@@ -26,9 +25,10 @@ export default function ProtectedRoute({ children }) {
             } finally {
                 setLoading(false);
             }
-        };
+        });
 
-        checkAuth();
+        // Cleanup subscription on unmount
+        return () => unsubscribe();
     }, []);
 
     if (loading) {

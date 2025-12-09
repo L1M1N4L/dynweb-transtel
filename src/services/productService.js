@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { collection, getDocs, doc, getDoc, query, where, addDoc, setDoc, deleteDoc, orderBy } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, query, where, addDoc, setDoc, updateDoc, deleteDoc, orderBy } from 'firebase/firestore';
 import { productData } from '../data/productData';
 
 // --- In-Memory Cache ---
