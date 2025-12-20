@@ -1,17 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase';
-import { doc, setDoc } from 'firebase/firestore';
-import { Key, Copy, CheckCircle, Loader2 } from 'lucide-react';
+import { doc, setDoc, collection, query, orderBy, getDocs } from 'firebase/firestore';
+import { Key, Copy, CheckCircle, Loader2, Sparkles, User, Calendar, Shield, Clock, Search, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function AdminLicenseGenerator() {
     const [loading, setLoading] = useState(false);
     const [generatedCode, setGeneratedCode] = useState('');
+    const [licenses, setLicenses] = useState([]);
+    const [loadingList, setLoadingList] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+
     const [formData, setFormData] = useState({
         days: 365,
         type: 'PRO',
         clientName: ''
     });
+
+    useEffect(() => {
+        fetchLicenses();
+    }, []);
+
+    const fetchLicenses = async () => {
+        setLoadingList(true);
+        try {
+            const q = query(collection(db, 'activation_codes'), orderBy('createdAt', 'desc'));
+            const querySnapshot = await getDocs(q);
+            const list = [];
+            querySnapshot.forEach((doc) => {
+                list.push({ id: doc.id, ...doc.data() });
+            });
+            setLicenses(list);
+        } catch (error) {
+            console.error("Error fetching licenses:", error);
+            toast.error("Could not load license history");
+        } finally {
+            setLoadingList(false);
+        }
+    };
 
     const generateRandomCode = () => {
         const rand1 = Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -40,6 +66,7 @@ export default function AdminLicenseGenerator() {
 
             setGeneratedCode(code);
             toast.success('License Generated Successfully!');
+            fetchLicenses(); // Refresh list
         } catch (error) {
             console.error('Error creating license:', error);
             toast.error('Failed to generate license.');
@@ -48,111 +75,216 @@ export default function AdminLicenseGenerator() {
         }
     };
 
-    const copyToClipboard = () => {
-        navigator.clipboard.writeText(generatedCode);
-        toast.success('Code copied to clipboard!');
+    const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text);
+        toast.success('Code copied!');
     };
 
+    const handleReset = () => {
+        setGeneratedCode('');
+        setFormData(prev => ({ ...prev, clientName: '' }));
+    };
+
+    const filteredLicenses = licenses.filter(l =>
+        l.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (l.clientName && l.clientName.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+
     return (
-        <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Form Section */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="p-3 bg-blue-50 rounded-lg">
-                            <Key className="w-6 h-6 text-blue-600" />
-                        </div>
-                        <h2 className="text-xl font-semibold text-gray-800">Generate New License</h2>
-                    </div>
+        <div className="max-w-6xl mx-auto space-y-8">
 
-                    <form onSubmit={handleGenerate} className="space-y-6">
+            {/* Generator Card */}
+            <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-md">
+                <div className="border-b border-gray-100 p-8 bg-gray-50/50">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-2xl bg-gray-900 flex items-center justify-center shadow-lg shadow-gray-900/20">
+                            <Sparkles className="w-5 h-5 text-yellow-500" />
+                        </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Client Name (Optional)
-                            </label>
-                            <input
-                                type="text"
-                                value={formData.clientName}
-                                onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
-                                placeholder="e.g. Acme Corp"
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                            />
+                            <h2 className="text-xl font-bold text-gray-900">License Generator</h2>
+                            <p className="text-sm text-gray-500">Create new activation keys for clients</p>
                         </div>
+                    </div>
+                </div>
 
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Duration (Days)
+                <div className="p-8">
+                    {!generatedCode ? (
+                        <form onSubmit={handleGenerate} className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+                            <div className="lg:col-span-4">
+                                <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                    <User className="w-3 h-3" /> Client Name
+                                </label>
+                                <input
+                                    type="text"
+                                    value={formData.clientName}
+                                    onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
+                                    placeholder="e.g. Acme Corp"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium"
+                                />
+                            </div>
+                            <div className="lg:col-span-3">
+                                <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                    <Calendar className="w-3 h-3" /> Duration (Days)
                                 </label>
                                 <input
                                     type="number"
                                     value={formData.days}
                                     onChange={(e) => setFormData({ ...formData, days: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium"
                                 />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    License Type
+                            <div className="lg:col-span-3">
+                                <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                    <Shield className="w-3 h-3" /> Type
                                 </label>
                                 <select
                                     value={formData.type}
                                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium cursor-pointer"
                                 >
                                     <option value="PRO">PRO</option>
                                     <option value="TRIAL">TRIAL</option>
                                     <option value="ENTERPRISE">ENTERPRISE</option>
                                 </select>
                             </div>
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-all flex items-center justify-center gap-2"
-                        >
-                            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Generate Code'}
-                        </button>
-                    </form>
-                </div>
-
-                {/* Result Section */}
-                <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl shadow-lg flex flex-col justify-center items-center text-center text-white relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-32 bg-blue-500 rounded-full blur-[100px] opacity-20"></div>
-
-                    {generatedCode ? (
-                        <div className="animate-in zoom-in duration-300 relative z-10 w-full">
-                            <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <CheckCircle className="w-8 h-8 text-green-400" />
+                            <div className="lg:col-span-2">
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2"
+                                >
+                                    {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Generate'}
+                                </button>
                             </div>
-                            <h3 className="text-gray-300 font-medium mb-2">Activation Code Ready</h3>
+                        </form>
+                    ) : (
+                        <div className="flex flex-col md:flex-row items-center gap-8 animate-in fade-in zoom-in duration-300">
+                            <div className="flex-1 w-full">
+                                <h3 className="text-lg font-bold text-gray-900 mb-1">Success!</h3>
+                                <p className="text-gray-500 text-sm">License key generated successfully.</p>
+                            </div>
                             <div
-                                onClick={copyToClipboard}
-                                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 mb-6 cursor-pointer hover:bg-white/15 transition-all group"
+                                onClick={() => copyToClipboard(generatedCode)}
+                                className="flex-1 w-full bg-green-50 border border-green-100 rounded-xl p-4 flex items-center justify-between cursor-pointer hover:bg-green-100 transition-colors group"
                             >
-                                <code className="text-3xl font-mono font-bold tracking-wider text-white">
+                                <code className="text-2xl font-mono font-bold text-green-700 tracking-wider">
                                     {generatedCode}
                                 </code>
-                                <div className="flex items-center justify-center gap-2 mt-2 text-sm text-gray-400 group-hover:text-white">
-                                    <Copy className="w-4 h-4" />
-                                    Click to Copy
-                                </div>
+                                <Copy className="w-5 h-5 text-green-500 group-hover:text-green-700" />
                             </div>
-                            <div className="text-sm text-gray-400">
-                                This code is valid for {formData.days} days.<br />
-                                Send it to the client to activate their software.
+                            <div>
+                                <button
+                                    onClick={handleReset}
+                                    className="text-gray-500 hover:text-gray-900 font-medium text-sm px-4 py-2 hover:bg-gray-50 rounded-lg transition-colors flex items-center gap-2"
+                                >
+                                    <RefreshCw className="w-4 h-4" /> Create Another
+                                </button>
                             </div>
-                        </div>
-                    ) : (
-                        <div className="relative z-10 opacity-50">
-                            <Key className="w-16 h-16 mx-auto mb-4 text-gray-600" />
-                            <p className="text-lg">Ready to Generate</p>
-                            <p className="text-sm text-gray-500 mt-2">Fill the form and click generate</p>
                         </div>
                     )}
                 </div>
             </div>
+
+            {/* List Section */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between px-2">
+                    <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                        <Key className="w-5 h-5 text-gray-400" /> License History
+                    </h3>
+                    <div className="relative">
+                        <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                        <input
+                            type="text"
+                            placeholder="Search licenses..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="bg-white border border-gray-200 rounded-full pl-9 pr-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none w-64 shadow-sm"
+                        />
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead>
+                                <tr className="bg-gray-50/80 border-b border-gray-100 text-xs uppercase tracking-wider text-gray-500">
+                                    <th className="px-8 py-4 font-semibold">License Code</th>
+                                    <th className="px-6 py-4 font-semibold">Client</th>
+                                    <th className="px-6 py-4 font-semibold">Details</th>
+                                    <th className="px-6 py-4 font-semibold">Status</th>
+                                    <th className="px-6 py-4 font-semibold">Created</th>
+                                    <th className="px-6 py-4 font-semibold text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-50">
+                                {loadingList ? (
+                                    <tr>
+                                        <td colSpan="6" className="px-8 py-12 text-center text-gray-500">
+                                            <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
+                                            Loading history...
+                                        </td>
+                                    </tr>
+                                ) : filteredLicenses.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="6" className="px-8 py-12 text-center text-gray-500">
+                                            No licenses found. Generate one above!
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    filteredLicenses.map((lic) => (
+                                        <tr key={lic.id} className="hover:bg-gray-50/50 transition-colors group">
+                                            <td className="px-8 py-4">
+                                                <code className="font-mono font-bold text-gray-700 bg-gray-100 px-2 py-1 rounded-md text-sm">
+                                                    {lic.code}
+                                                </code>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {lic.clientName ? (
+                                                    <span className="font-medium text-gray-900">{lic.clientName}</span>
+                                                ) : (
+                                                    <span className="text-gray-400 italic">Unknown</span>
+                                                )}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex flex-col">
+                                                    <span className="text-xs font-bold text-gray-500 uppercase">{lic.type}</span>
+                                                    <span className="text-xs text-gray-400">Exp: {new Date(lic.expiryDate).toLocaleDateString()}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {lic.used ? (
+                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-100">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                                                        Active
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                                                        Unused
+                                                    </span>
+                                                )}
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-gray-500">
+                                                {new Date(lic.createdAt).toLocaleDateString()}
+                                            </td>
+                                            <td className="px-6 py-4 text-right">
+                                                <button
+                                                    onClick={() => copyToClipboard(lic.code)}
+                                                    className="p-2 hover:bg-gray-200 rounded-lg text-gray-400 hover:text-gray-600 transition-colors"
+                                                    title="Copy Code"
+                                                >
+                                                    <Copy className="w-4 h-4" />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     );
 }
