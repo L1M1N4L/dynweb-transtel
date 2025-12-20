@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase';
-import { doc, setDoc, collection, query, orderBy, getDocs } from 'firebase/firestore';
-import { Key, Copy, CheckCircle, Loader2, Sparkles, User, Calendar, Shield, Clock, Search, RefreshCw } from 'lucide-react';
+import { doc, setDoc, collection, query, orderBy, getDocs, updateDoc } from 'firebase/firestore';
+import { Key, Copy, CheckCircle, Loader2, Sparkles, User, Calendar, Shield, Search, RefreshCw, PlusCircle, Ban, X, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function AdminLicenseGenerator() {
@@ -10,6 +10,10 @@ export default function AdminLicenseGenerator() {
     const [licenses, setLicenses] = useState([]);
     const [loadingList, setLoadingList] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+
+    // Renewal Modal State
+    const [renewModal, setRenewModal] = useState({ open: false, licenseId: null, currentExpiry: null, code: '' });
+    const [renewDays, setRenewDays] = useState(365);
 
     const [formData, setFormData] = useState({
         days: 365,
@@ -75,6 +79,67 @@ export default function AdminLicenseGenerator() {
         }
     };
 
+    // --- Actions ---
+
+    const handleTerminate = async (licenseId) => {
+        if (!confirm('Are you sure you want to TERMINATE this license? This will stop it from working immediately.')) return;
+
+        try {
+            // Set expiry to yesterday
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+
+            await updateDoc(doc(db, 'activation_codes', licenseId), {
+                expiryDate: yesterday.toISOString()
+            });
+
+            toast.success('License Terminated');
+            fetchLicenses();
+        } catch (error) {
+            console.error('Termination error:', error);
+            toast.error('Failed to terminate license');
+        }
+    };
+
+    const openRenewModal = (lic) => {
+        setRenewModal({
+            open: true,
+            licenseId: lic.id,
+            currentExpiry: lic.expiryDate,
+            code: lic.code
+        });
+        setRenewDays(365); // Default to 1 year
+    };
+
+    const submitRenewal = async () => {
+        if (!renewModal.licenseId) return;
+
+        try {
+            const oldDate = new Date(renewModal.currentExpiry);
+            // Check if old date is passed? If so start from today? 
+            // Better to extend from *current expiry* if valid, or *today* if expired.
+            let baseDate = oldDate;
+            if (oldDate < new Date()) {
+                baseDate = new Date(); // Start fresh from today if expired
+            }
+
+            const newDate = new Date(baseDate);
+            newDate.setDate(newDate.getDate() + parseInt(renewDays));
+
+            await updateDoc(doc(db, 'activation_codes', renewModal.licenseId), {
+                expiryDate: newDate.toISOString()
+            });
+
+            toast.success(`Extended by ${renewDays} days!`);
+            setRenewModal({ open: false, licenseId: null, currentExpiry: null, code: '' });
+            fetchLicenses();
+        } catch (error) {
+            console.error('Renew error:', error);
+            toast.error('Failed to renew license');
+        }
+    };
+
+
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text);
         toast.success('Code copied!');
@@ -91,7 +156,7 @@ export default function AdminLicenseGenerator() {
     );
 
     return (
-        <div className="max-w-6xl mx-auto space-y-8">
+        <div className="max-w-6xl mx-auto space-y-8 relative">
 
             {/* Generator Card */}
             <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-md">
@@ -231,59 +296,150 @@ export default function AdminLicenseGenerator() {
                                         </td>
                                     </tr>
                                 ) : (
-                                    filteredLicenses.map((lic) => (
-                                        <tr key={lic.id} className="hover:bg-gray-50/50 transition-colors group">
-                                            <td className="px-8 py-4">
-                                                <code className="font-mono font-bold text-gray-700 bg-gray-100 px-2 py-1 rounded-md text-sm">
-                                                    {lic.code}
-                                                </code>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                {lic.clientName ? (
-                                                    <span className="font-medium text-gray-900">{lic.clientName}</span>
-                                                ) : (
-                                                    <span className="text-gray-400 italic">Unknown</span>
-                                                )}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex flex-col">
-                                                    <span className="text-xs font-bold text-gray-500 uppercase">{lic.type}</span>
-                                                    <span className="text-xs text-gray-400">Exp: {new Date(lic.expiryDate).toLocaleDateString()}</span>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                {lic.used ? (
-                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-100">
-                                                        <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                                                        Active
-                                                    </span>
-                                                ) : (
-                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
-                                                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
-                                                        Unused
-                                                    </span>
-                                                )}
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-500">
-                                                {new Date(lic.createdAt).toLocaleDateString()}
-                                            </td>
-                                            <td className="px-6 py-4 text-right">
-                                                <button
-                                                    onClick={() => copyToClipboard(lic.code)}
-                                                    className="p-2 hover:bg-gray-200 rounded-lg text-gray-400 hover:text-gray-600 transition-colors"
-                                                    title="Copy Code"
-                                                >
-                                                    <Copy className="w-4 h-4" />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))
+                                    filteredLicenses.map((lic) => {
+                                        const isExpired = new Date(lic.expiryDate) < new Date();
+                                        return (
+                                            <tr key={lic.id} className="hover:bg-gray-50/50 transition-colors group">
+                                                <td className="px-8 py-4">
+                                                    <code className="font-mono font-bold text-gray-700 bg-gray-100 px-2 py-1 rounded-md text-sm">
+                                                        {lic.code}
+                                                    </code>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    {lic.clientName ? (
+                                                        <span className="font-medium text-gray-900">{lic.clientName}</span>
+                                                    ) : (
+                                                        <span className="text-gray-400 italic">Unknown</span>
+                                                    )}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className="flex flex-col">
+                                                        <span className="text-xs font-bold text-gray-500 uppercase">{lic.type}</span>
+                                                        <span className={`text-xs ${isExpired ? 'text-red-500 font-bold' : 'text-gray-400'}`}>
+                                                            Exp: {new Date(lic.expiryDate).toLocaleDateString()}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    {isExpired ? (
+                                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700 border border-red-100">
+                                                            <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
+                                                            Expired
+                                                        </span>
+                                                    ) : lic.used ? (
+                                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-100">
+                                                            <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                                                            Active
+                                                        </span>
+                                                    ) : (
+                                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                                                            Unused
+                                                        </span>
+                                                    )}
+                                                </td>
+                                                <td className="px-6 py-4 text-sm text-gray-500">
+                                                    {new Date(lic.createdAt).toLocaleDateString()}
+                                                </td>
+                                                <td className="px-6 py-4 text-right flex justify-end gap-2">
+                                                    <button
+                                                        onClick={() => openRenewModal(lic)}
+                                                        className="p-2 hover:bg-blue-100 rounded-lg text-blue-500 hover:text-blue-700 transition-colors"
+                                                        title="Extend License"
+                                                    >
+                                                        <PlusCircle className="w-4 h-4" />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleTerminate(lic.id)}
+                                                        className="p-2 hover:bg-red-100 rounded-lg text-red-400 hover:text-red-600 transition-colors"
+                                                        title="Terminate License"
+                                                    >
+                                                        <Ban className="w-4 h-4" />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
                                 )}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
+            {/* Renewal Modal */}
+            {renewModal.open && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
+                        <div className="border-b border-gray-100 p-6 flex items-center justify-between bg-gray-50/50">
+                            <h3 className="text-lg font-bold text-gray-900">Extend License</h3>
+                            <button
+                                onClick={() => setRenewModal({ ...renewModal, open: false })}
+                                className="text-gray-400 hover:text-gray-600"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <div className="p-6 space-y-4">
+                            <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-4">
+                                <span className="text-xs font-bold text-blue-500 uppercase tracking-wider block mb-1">License Code</span>
+                                <code className="text-blue-900 font-mono font-bold block">{renewModal.code}</code>
+                                <span className="text-xs text-blue-400 mt-2 block">
+                                    Current Expiry: {new Date(renewModal.currentExpiry).toLocaleDateString()}
+                                </span>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Add Duration (Days)</label>
+                                <div className="grid grid-cols-3 gap-3 mb-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => setRenewDays(30)}
+                                        className={`py-2 px-3 rounded-lg text-sm font-medium border transition-colors ${renewDays === 30 ? 'bg-blue-100 border-blue-200 text-blue-700' : 'bg-white border-gray-200 hover:bg-gray-50'}`}
+                                    >
+                                        30 Days
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setRenewDays(365)}
+                                        className={`py-2 px-3 rounded-lg text-sm font-medium border transition-colors ${renewDays === 365 ? 'bg-blue-100 border-blue-200 text-blue-700' : 'bg-white border-gray-200 hover:bg-gray-50'}`}
+                                    >
+                                        1 Year
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setRenewDays(730)}
+                                        className={`py-2 px-3 rounded-lg text-sm font-medium border transition-colors ${renewDays === 730 ? 'bg-blue-100 border-blue-200 text-blue-700' : 'bg-white border-gray-200 hover:bg-gray-50'}`}
+                                    >
+                                        2 Years
+                                    </button>
+                                </div>
+                                <input
+                                    type="number"
+                                    value={renewDays}
+                                    onChange={(e) => setRenewDays(e.target.value)}
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium"
+                                    placeholder="Custom days..."
+                                />
+                            </div>
+                        </div>
+                        <div className="border-t border-gray-100 p-6 bg-gray-50/50 flex justify-end gap-3">
+                            <button
+                                onClick={() => setRenewModal({ ...renewModal, open: false })}
+                                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={submitRenewal}
+                                className="px-4 py-2 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-lg shadow-blue-200 transition-colors flex items-center gap-2"
+                            >
+                                <Save className="w-4 h-4" /> Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
     );
