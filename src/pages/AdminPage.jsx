@@ -15,6 +15,7 @@ import AdminCategoryList from '../components/admin/AdminCategoryList';
 import AdminCategoryForm from '../components/admin/AdminCategoryForm';
 import AdminDashboard from '../components/admin/AdminDashboard';
 import AdminContactList from '../components/admin/AdminContactList';
+import AdminLicenseGenerator from '../components/admin/AdminLicenseGenerator';
 
 export default function AdminPage() {
     const navigate = useNavigate();
@@ -316,7 +317,9 @@ export default function AdminPage() {
                             {activeTab === 'add' && (formData.editId ? 'Edit Product' : 'Add New Product')}
                             {activeTab === 'manage' && 'Manage Products'}
                             {activeTab === 'categories' && 'Manage Categories'}
+                            {activeTab === 'categories' && 'Manage Categories'}
                             {activeTab === 'contacts' && 'Contact Submissions'}
+                            {activeTab === 'licenses' && 'License Generator'}
                         </h1>
                         <p className="text-[#86868b] mt-2">
                             {activeTab === 'dashboard' && 'Overview of your product catalog and analytics.'}
@@ -324,6 +327,7 @@ export default function AdminPage() {
                             {activeTab === 'manage' && 'View, edit, or delete existing products from your catalog.'}
                             {activeTab === 'categories' && 'Create and customize product categories with icons and backgrounds.'}
                             {activeTab === 'contacts' && 'View and manage customer inquiries from the contact form.'}
+                            {activeTab === 'licenses' && 'Generate and manage activation codes for the Billing System.'}
                         </p>
                     </header>
 
@@ -397,6 +401,10 @@ export default function AdminPage() {
 
                     {activeTab === 'contacts' && (
                         <AdminContactList />
+                    )}
+
+                    {activeTab === 'licenses' && (
+                        <AdminLicenseGenerator />
                     )}
                 </div>
             </main>
