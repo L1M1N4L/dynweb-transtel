@@ -49,6 +49,10 @@ export default function Navbar() {
                             Support
                             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300"></span>
                         </Link>
+                        <Link to="/help" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors relative group">
+                            Help
+                            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300"></span>
+                        </Link>
                         <Link to="/contact" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors relative group">
                             Contact Us
                             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300"></span>
@@ -75,6 +79,7 @@ export default function Navbar() {
                             <Link to="/product" className="text-sm text-gray-600">Product</Link>
                             <Link to="/solution" className="text-sm text-gray-600">Solution</Link>
                             <Link to="/support" className="text-sm text-gray-600">Support</Link>
+                            <Link to="/help" className="text-sm text-gray-600">Help</Link>
                             <Link to="/contact" className="text-sm text-gray-600">Contact Us</Link>
                         </div>
                     </div>

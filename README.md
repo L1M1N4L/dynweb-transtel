@@ -107,4 +107,4 @@ Private - Transtel Communications
 
 ## 👥 Contact
 
-For support or inquiries, visit [Transtel Communications](https://transtel.com)
+For support or inquiries, visit [Transtel Communications](https://transtelcommunications.co)

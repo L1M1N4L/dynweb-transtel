@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cleanup-anonymous": "node scripts/cleanup-anonymous-users.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -18,7 +19,9 @@
     "@mui/material": "^7.3.6",
     "@tailwindcss/vite": "^4.1.17",
     "chart.js": "^4.5.1",
+    "dotenv": "^17.2.3",
     "firebase": "^12.6.0",
+    "firebase-admin": "^13.6.0",
     "lucide-react": "^0.556.0",
     "react": "^19.2.0",
     "react-chartjs-2": "^5.3.1",

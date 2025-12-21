@@ -10,6 +10,7 @@ import ProductDetail from './components/product/ProductDetail';
 import SolutionPage from './pages/SolutionPage';
 import SupportPage from './pages/SupportPage';
 import ContactPage from './pages/ContactPage';
+import HelpPage from './pages/HelpPage';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="solution" element={<SolutionPage />} />
           <Route path="support" element={<SupportPage />} />
           <Route path="contact" element={<ContactPage />} />
+          <Route path="help" element={<HelpPage />} />
         </Route>
         <Route
           path="/secure-dashboard"
