@@ -17,20 +17,20 @@ export default function Mission() {
     ];
 
     return (
-        <section className="py-24 bg-white">
+        <section className="py-12 bg-white">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                <div className="text-center mb-20">
-                    <h2 className="text-4xl md:text-5xl font-bold text-[#1d1d1f] tracking-tight mb-6">Driving Connectivity Forward</h2>
-                    <p className="text-xl font-medium text-[#86868b] max-w-3xl mx-auto leading-relaxed">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-[#1d1d1f] tracking-tight mb-4">Driving Connectivity Forward</h2>
+                    <p className="text-base font-medium text-[#86868b] max-w-3xl mx-auto leading-normal">
                         We build the infrastructure that keeps the world talking, ensuring you never miss a moment that matters.
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-12">
+                <div className="grid md:grid-cols-3 gap-8">
                     {values.map((item, index) => (
                         <div key={index} className="flex flex-col items-center text-center">
-                            <h3 className="text-2xl font-semibold text-[#1d1d1f] mb-4 tracking-tight">{item.title}</h3>
-                            <p className="text-[#86868b] text-lg leading-relaxed font-medium">
+                            <h3 className="text-lg font-bold text-[#1d1d1f] mb-2 tracking-tight">{item.title}</h3>
+                            <p className="text-[#86868b] text-base leading-normal font-medium">
                                 {item.content}
                             </p>
                         </div>

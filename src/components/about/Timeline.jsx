@@ -10,11 +10,11 @@ export default function Timeline() {
     ];
 
     return (
-        <section className="py-32 px-6 bg-white min-h-[50vh] flex items-center justify-center">
+        <section className="py-12 px-6 bg-white min-h-[30vh] flex items-center justify-center">
             <div className="max-w-[1400px] w-full">
-                <div className="text-center mb-20">
-                    <h1 className="text-4xl md:text-5xl font-bold text-[#1d1d1f] mb-3 tracking-tight">Our Journey</h1>
-                    <p className="text-[#86868b] text-lg font-medium">Key milestones</p>
+                <div className="text-center mb-12">
+                    <h1 className="text-3xl md:text-4xl font-bold text-[#1d1d1f] mb-2 tracking-tight">Our Journey</h1>
+                    <p className="text-[#86868b] text-base font-medium">Key milestones</p>
                 </div>
 
                 {/* DESKTOP LAYOUT (Horizontal) - Hidden on mobile/tablet */}
