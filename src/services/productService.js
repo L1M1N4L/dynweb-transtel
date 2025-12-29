@@ -160,7 +160,7 @@ export const ProductService = {
             const querySnapshot = await getDocs(collection(db, "products"));
             const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-            // Sort by createdAt desc (Newest first)
+            // Sort by createdAt asc (Oldest first)
             data.sort((a, b) => {
                 const getDate = (item) => {
                     if (!item.createdAt) return 0;
@@ -169,7 +169,7 @@ export const ProductService = {
                     // Handle JS Date or ISO string
                     return new Date(item.createdAt).getTime();
                 };
-                return getDate(b) - getDate(a);
+                return getDate(a) - getDate(b);
             });
 
             productsCache = data;
