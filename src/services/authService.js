@@ -35,7 +35,7 @@ export const AuthService = {
         return auth.currentUser;
     },
 
-    // Check if user has admin role in Firestore
+    // Check if user has admin or technical role in Firestore
     checkAdminRole: async (uid) => {
         const { db } = await import('../firebase');
         const { doc, getDoc } = await import('firebase/firestore');
@@ -44,10 +44,11 @@ export const AuthService = {
             const userDoc = await getDoc(doc(db, 'users', uid));
             if (userDoc.exists()) {
                 const userData = userDoc.data();
-                return userData.role === 'admin';
+                // Both admin and technical roles have access to administrative features
+                return userData.role === 'admin' || userData.role === 'technical';
             }
         } catch (error) {
-            console.error("Error checking admin role:", error);
+            console.error("Error checking user role:", error);
         }
         return false;
     }

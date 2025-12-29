@@ -1,5 +1,5 @@
-import React from 'react';
 import AboutHero from '../components/about/AboutHero';
+import CompanyOverview from '../components/about/CompanyOverview';
 import Timeline from '../components/about/Timeline';
 import SEO from '../components/common/SEO';
 
@@ -11,6 +11,7 @@ export default function AboutPage() {
                 description="Learn about Transtel Communications' history, mission, and dedication to enterprise communication excellence."
             />
             <AboutHero />
+            <CompanyOverview />
             <Timeline />
         </div>
     );

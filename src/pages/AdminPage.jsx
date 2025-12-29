@@ -54,14 +54,14 @@ export default function AdminPage() {
             if (!currentUser) {
                 navigate('/login');
             } else {
-                // Verify Admin Role
-                const isAdmin = await AuthService.checkAdminRole(currentUser.uid);
-                if (isAdmin) {
+                // Verify Authorized Role (Admin or Technical)
+                const isAuthorized = await AuthService.checkAdminRole(currentUser.uid);
+                if (isAuthorized) {
                     setUser(currentUser);
                     fetchProducts();
                     fetchCategories();
                 } else {
-                    alert("Access Denied: You do not have administrator privileges.");
+                    alert("Access Denied: You do not have the required privileges.");
                     await AuthService.logout();
                     navigate('/login');
                 }

@@ -25,13 +25,17 @@ async function deleteAnonymousUsers(nextPageToken) {
     try {
         const listUsersResult = await auth.listUsers(100, nextPageToken);
         const now = Date.now();
-        const twentyFourHoursAgo = now - 24 * 60 * 60 * 1000;
+        const thresholdHours = parseInt(process.env.CLEANUP_THRESHOLD_HOURS || '24');
+        const thresholdMs = thresholdHours * 60 * 60 * 1000;
+        const thresholdDate = now - thresholdMs;
+
+        console.log(`[${new Date().toISOString()}] 🔍 Searching for anonymous users created before ${new Date(thresholdDate).toISOString()} (${thresholdHours}h threshold)...`);
 
         const anonymousUsersToDelete = listUsersResult.users.filter((user) => {
             // Anonymous users have no provider data
             const isAnonymous = user.providerData.length === 0;
             const createdAt = new Date(user.metadata.creationTime).getTime();
-            const isOldEnough = createdAt < twentyFourHoursAgo;
+            const isOldEnough = createdAt < thresholdDate;
 
             return isAnonymous && isOldEnough;
         });

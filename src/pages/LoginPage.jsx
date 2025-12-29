@@ -17,13 +17,13 @@ export default function LoginPage() {
         try {
             const result = await AuthService.login(email, password);
             // Check role
-            const isAdmin = await AuthService.checkAdminRole(result.user.uid);
-            if (isAdmin) {
+            const isAuthorized = await AuthService.checkAdminRole(result.user.uid);
+            if (isAuthorized) {
                 toast.success('Welcome back!');
                 navigate('/secure-dashboard');
             } else {
                 await AuthService.logout();
-                toast.error('Access Denied: Not an administrator.');
+                toast.error('Access Denied: You do not have the required privileges.');
             }
         } catch (err) {
             toast.error('Failed to login. Check your credentials.');
@@ -39,13 +39,13 @@ export default function LoginPage() {
         try {
             const result = await AuthService.loginWithGoogle();
             // Check role immediately
-            const isAdmin = await AuthService.checkAdminRole(result.user.uid);
-            if (isAdmin) {
+            const isAuthorized = await AuthService.checkAdminRole(result.user.uid);
+            if (isAuthorized) {
                 toast.success('Welcome back!');
                 navigate('/secure-dashboard');
             } else {
                 await AuthService.logout();
-                toast.error('Access Denied: You do not have administrator privileges.');
+                toast.error('Access Denied: You do not have the required privileges.');
             }
         } catch (err) {
             toast.error('Failed to sign in with Google.');

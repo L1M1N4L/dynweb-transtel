@@ -17,20 +17,20 @@ export default function Mission() {
     ];
 
     return (
-        <section className="py-20 bg-gray-50">
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-4">Driving Connectivity Forward</h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <section className="py-24 bg-white">
+            <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                <div className="text-center mb-20">
+                    <h2 className="text-4xl md:text-5xl font-bold text-[#1d1d1f] tracking-tight mb-6">Driving Connectivity Forward</h2>
+                    <p className="text-xl font-medium text-[#86868b] max-w-3xl mx-auto leading-relaxed">
                         We build the infrastructure that keeps the world talking, ensuring you never miss a moment that matters.
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-10">
+                <div className="grid md:grid-cols-3 gap-12">
                     {values.map((item, index) => (
-                        <div key={index} className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col items-center text-center group">
-                            <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-black transition-colors">{item.title}</h3>
-                            <p className="text-gray-600 leading-relaxed group-hover:text-gray-800 transition-colors">
+                        <div key={index} className="flex flex-col items-center text-center">
+                            <h3 className="text-2xl font-semibold text-[#1d1d1f] mb-4 tracking-tight">{item.title}</h3>
+                            <p className="text-[#86868b] text-lg leading-relaxed font-medium">
                                 {item.content}
                             </p>
                         </div>
