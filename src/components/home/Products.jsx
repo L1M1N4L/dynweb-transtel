@@ -4,22 +4,21 @@ import { ProductService } from '../../services/productService';
 import { Link } from 'react-router-dom';
 
 export default function Products() {
-    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchCategories = async () => {
             try {
-                const allProducts = await ProductService.getAllProducts();
-                // Take first 6 products as featured
-                setProducts(allProducts.slice(0, 6));
+                const allCategories = await ProductService.getAllCategories();
+                setCategories(allCategories);
             } catch (error) {
-                console.error("Failed to load products", error);
+                console.error("Failed to load categories", error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchProducts();
+        fetchCategories();
     }, []);
 
     if (loading) return (
@@ -29,58 +28,55 @@ export default function Products() {
     );
 
     return (
-        <section id="product" className="py-16 px-6 bg-white">
+        <section id="product" className="py-24 px-6 bg-white">
             <div className="max-w-7xl mx-auto">
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl md:text-5xl font-semibold text-gray-900 mb-2 tracking-tight">Our Products</h2>
+                <div className="text-center mb-16">
+                    <h2 className="text-4xl md:text-5xl font-semibold text-[#1d1d1f] mb-3 tracking-tight">Our Products</h2>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                         Comprehensive communication solutions designed for modern enterprises
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {products.map((product) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    {categories.map((category) => (
                         <div
-                            key={product.id}
-                            className="group flex flex-col"
+                            key={category.id}
+                            className="group flex flex-col h-full bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100"
                         >
-                            {/* Product Image - Fixed Size */}
-                            <div className="w-full h-[400px] mb-4 flex items-center justify-center overflow-hidden bg-white rounded-lg border border-gray-100">
-                                {product.image || (product.images && product.images[0]) ? (
+                            {/* Category Image */}
+                            <div className="w-full h-64 overflow-hidden bg-gray-50 flex items-center justify-center relative">
+                                {category.image ? (
                                     <img
-                                        src={product.image || product.images[0]}
-                                        alt={product.name}
-                                        className="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+                                        src={category.image}
+                                        alt={category.title}
+                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
                                 ) : (
-                                    <div className="w-full h-full bg-gray-50 flex items-center justify-center">
-                                        <div className="w-12 h-12 flex items-center justify-center">
-                                            <svg className="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </div>
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                        <svg className="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                        </svg>
                                     </div>
                                 )}
+                                {/* Overlay gradient */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             </div>
 
-                            {/* Product Info */}
-                            <div className="text-center">
-                                <h3 className="text-2xl font-semibold text-gray-900 mb-2 tracking-tight">
-                                    {product.name}
+                            {/* Category Info */}
+                            <div className="p-8 flex flex-col flex-grow text-center">
+                                <h3 className="text-2xl font-bold text-[#1d1d1f] mb-3 tracking-tight group-hover:text-blue-600 transition-colors">
+                                    {category.title}
                                 </h3>
-                                <p className="text-sm text-gray-600 mb-5 leading-relaxed line-clamp-2 min-h-[40px]">
-                                    {product.description}
+                                <p className="text-gray-500 mb-6 leading-relaxed line-clamp-3 text-sm flex-grow">
+                                    {category.description}
                                 </p>
-                                <div className="flex items-center justify-center gap-3">
+                                <div>
                                     <Link
-                                        to={`/product/${product.category}/${product.id}`}
-                                        className="px-6 py-2 bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-blue-700 transition-colors duration-200"
+                                        to={`/product/${category.id}`}
+                                        className="inline-flex items-center justify-center px-6 py-2.5 bg-[#f5f5f7] text-[#1d1d1f] text-sm font-semibold rounded-full hover:bg-[#1d1d1f] hover:text-white transition-all duration-300"
                                     >
-                                        Learn more
+                                        Explore {category.title}
                                     </Link>
-                                    <button className="px-6 py-2 border-2 border-gray-900 text-gray-900 text-sm font-medium rounded-full hover:bg-gray-900 hover:text-white transition-all duration-200">
-                                        Buy
-                                    </button>
                                 </div>
                             </div>
                         </div>
