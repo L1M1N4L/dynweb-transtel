@@ -143,7 +143,7 @@ export default function ContactPage() {
                                         <p style="margin: 0 0 16px; color: #6b7280; font-size: 14px; font-weight: 600;">Transtel Communications</p>
                                         <p style="margin: 0; color: #9ca3af; font-size: 12px; line-height: 1.6;">
                                             WhatsApp: (081) 1918 1222<br>
-                                            Phone: (021) 5435 6600<br>
+                                            Phone: +62 (0) 2154356600<br>
                                             Web: <a href="https://transtelcommunications.co/" style="color: #2563eb; text-decoration: none;">transtelcommunications.co</a>
                                         </p>
                                     </td>
