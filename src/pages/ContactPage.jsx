@@ -16,33 +16,32 @@ export default function ContactPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const offices = [
-        { country: 'USA', phone: '561 747-4466 x111' },
-        { country: 'Indonesia', phone: '+62 (0) 2154356600' },
+        { country: 'USA — Jupiter, FL', phone: '+1 (561) 747-4466' },
         { country: 'Taiwan', phone: '+886 922 570 628' },
         { country: 'Australia', phone: '(02)9415 0100' },
         { country: 'New Zealand', phone: '+64 (9) 2604009' },
-        { country: 'Sri Lanka', phone: '94771075589' }
+        { country: 'Sri Lanka', phone: '+94771075589' }
     ];
 
     const socialLinks = [
         {
             name: 'Facebook',
-            url: 'http://facebook.com/transtelindonesia97/',
+            url: 'https://www.facebook.com/transtelcommunications/',
             icon: Facebook
         },
         {
             name: 'Instagram',
-            url: 'https://www.instagram.com/transtelindonesia/',
+            url: 'https://www.instagram.com/transtelcommunications/',
             icon: Instagram
         },
         {
             name: 'WhatsApp',
-            url: 'https://api.whatsapp.com/send?phone=628119181222',
+            url: 'https://api.whatsapp.com/send?phone=15617474466',
             icon: Phone
         },
         {
             name: 'YouTube',
-            url: 'https://www.youtube.com/@pabxtranstelkomunikasitds6739',
+            url: 'https://www.youtube.com/@transtelcommunications',
             icon: Youtube
         }
     ];
@@ -142,8 +141,8 @@ export default function ContactPage() {
                                     <td style="text-align: center; padding-bottom: 20px;">
                                         <p style="margin: 0 0 16px; color: #6b7280; font-size: 14px; font-weight: 600;">Transtel Communications</p>
                                         <p style="margin: 0; color: #9ca3af; font-size: 12px; line-height: 1.6;">
-                                            WhatsApp: (081) 1918 1222<br>
-                                            Phone: +62 (0) 2154356600<br>
+                                            Phone: +1 (561) 747-4466<br>
+                                            1562 Park Ln S, Jupiter, FL 33458, United States<br>
                                             Web: <a href="https://transtelcommunications.co/" style="color: #2563eb; text-decoration: none;">transtelcommunications.co</a>
                                         </p>
                                     </td>
