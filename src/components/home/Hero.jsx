@@ -8,15 +8,15 @@ export default function Hero() {
             className="relative pt-20 overflow-hidden"
             style={{ background: '#000' }}
         >
-            {/* Background image */}
+            {/* Background image — faded */}
             <div className="absolute inset-0">
                 <img
                     src={pabxImage}
                     alt=""
                     className="w-full h-full object-cover"
-                    style={{ opacity: 0.45 }}
+                    style={{ opacity: 0.2 }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
             </div>
 
             {/* Content */}

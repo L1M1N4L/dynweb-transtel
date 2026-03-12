@@ -35,13 +35,13 @@ function ProductCards() {
                         title="PABX Systems"
                         sub="Hybrid & Full IP"
                         desc="From compact offices to large-scale hospitality and healthcare. IPX-50, IPX-100, IPX-800, VP-500, VP-3000."
-                        link="/product/PABX"
+                        link="/product"
                     />
                     <Card
                         title="Nurse Call"
                         sub="Patient Safety"
                         desc="Smart nurse call infrastructure with call logging, door access history, and seamless clinical integration."
-                        link="/product/Nurse Call"
+                        link="/product"
                     />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -49,21 +49,21 @@ function ProductCards() {
                         title="Voice Gateway"
                         sub="FXO & FXS — 2 to 48 ports"
                         desc="Portable VoIP adapters and scalable multi-port gateways for enterprise and hospitality."
-                        link="/product/Voice Gateway"
+                        link="/product"
                         small
                     />
                     <Card
                         title="GPON"
                         sub="Fiber infrastructure"
                         desc="OLT, ONU, and ONT solutions for modern fiber-to-the-room deployments."
-                        link="/product/GPON"
+                        link="/product"
                         small
                     />
                     <Card
                         title="IP Telephone"
                         sub="Analog & IP"
                         desc="Full range of desk phones, lobby phones, and bathroom phones designed for every room type."
-                        link="/product/Telephone"
+                        link="/product"
                         small
                     />
                 </div>

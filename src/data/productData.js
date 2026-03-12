@@ -5,7 +5,7 @@ export const productData = {
     "PABX": {
         title: "PABX",
         description: "Advanced Private Automatic Branch Exchange systems",
-        image: PLACEHOLDER_IMG,
+        image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80",
         products: [
             { id: "IPX-100", name: "IPX-100", description: "Compact PABX for small businesses.", image: PLACEHOLDER_IMG, images: [PLACEHOLDER_IMG, PLACEHOLDER_IMG, PLACEHOLDER_IMG, PLACEHOLDER_IMG, PLACEHOLDER_IMG, PLACEHOLDER_IMG] },
             { id: "IPX-800", name: "IPX-800", description: "Scalable PABX for mid-sized enterprises.", image: PLACEHOLDER_IMG, images: [PLACEHOLDER_IMG, PLACEHOLDER_IMG, PLACEHOLDER_IMG, PLACEHOLDER_IMG, PLACEHOLDER_IMG] },
@@ -16,7 +16,7 @@ export const productData = {
     "Telephone": {
         title: "Telephone",
         description: "Professional telephone solutions",
-        image: PLACEHOLDER_IMG,
+        image: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&q=80",
         products: [
             { id: "IPV-3786", name: "IPV-3786", description: "High-end IP Video Phone.", image: PLACEHOLDER_IMG },
             { id: "IP-77F1", name: "IP-77F1", description: "Standard office IP Phone.", image: PLACEHOLDER_IMG },
@@ -28,7 +28,7 @@ export const productData = {
     "Nurse Call": {
         title: "Nurse Call",
         description: "Reliable nurse call systems",
-        image: PLACEHOLDER_IMG,
+        image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80",
         products: [
             { id: "AH-99PS", name: "AH-99PS", description: "Patient station unit.", image: PLACEHOLDER_IMG },
             { id: "AH-99BN", name: "AH-99BN", description: "Bathroom pull cord unit.", image: PLACEHOLDER_IMG },
@@ -38,7 +38,7 @@ export const productData = {
     "Voice Logger": {
         title: "Voice Logger",
         description: "Comprehensive voice recording",
-        image: PLACEHOLDER_IMG,
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80",
         products: [
             { id: "VL-100", name: "VL-100", description: "Single-channel logger.", image: PLACEHOLDER_IMG },
             { id: "VL-400", name: "VL-400", description: "Multi-channel enterprise logger.", image: PLACEHOLDER_IMG }
@@ -47,7 +47,7 @@ export const productData = {
     "Voice Gateway": {
         title: "Voice Gateway",
         description: "Enterprise-grade voice gateway",
-        image: PLACEHOLDER_IMG,
+        image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80",
         products: [
             { id: "VG-200", name: "VG-200", description: "Analog to VoIP gateway.", image: PLACEHOLDER_IMG },
             { id: "VG-400", name: "VG-400", description: "E1/T1 digital gateway.", image: PLACEHOLDER_IMG }
@@ -56,7 +56,7 @@ export const productData = {
     "GPON": {
         title: "GPON",
         description: "Gigabit Passive Optical Network",
-        image: PLACEHOLDER_IMG,
+        image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80",
         products: [
             { id: "OLT-1000", name: "OLT-1000", description: "Optical Line Terminal.", image: PLACEHOLDER_IMG },
             { id: "ONT-500", name: "ONT-500", description: "Optical Network Terminal.", image: PLACEHOLDER_IMG }
