@@ -119,8 +119,8 @@ export default function ProductDetail() {
                                                 key={i}
                                                 onClick={() => setMainImage(img)}
                                                 className={`w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all snap-center ${mainImage === img
-                                                        ? 'border-[#1d1d1f]'
-                                                        : 'border-[#e5e5e5] hover:border-[#c6c6c8]'
+                                                    ? 'border-[#1d1d1f]'
+                                                    : 'border-[#e5e5e5] hover:border-[#c6c6c8]'
                                                     }`}
                                             >
                                                 <img src={img} alt={`View ${i + 1}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
@@ -167,12 +167,12 @@ export default function ProductDetail() {
 
                             {/* CTAs */}
                             <div className="flex gap-3 flex-wrap">
-                                <RouterLink
-                                    to="/contact"
+                                <a
+                                    href="mailto:sales@transtelcommunications.co"
                                     className="px-8 py-3.5 bg-[#1d1d1f] text-white rounded-full font-semibold hover:bg-[#333] transition-colors text-sm"
                                 >
                                     Contact Sales
-                                </RouterLink>
+                                </a>
                                 {product.specSheetUrl && (
                                     <button
                                         onClick={() => window.open(product.specSheetUrl, '_blank')}

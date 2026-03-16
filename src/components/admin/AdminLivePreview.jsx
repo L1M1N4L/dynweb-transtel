@@ -81,9 +81,9 @@ export default function AdminLivePreview({
                     </div>
 
                     <div className="mt-6 flex flex-col gap-2">
-                        <button className="w-full py-2 bg-[#0071e3] text-white rounded-full text-sm font-medium hover:bg-[#0077ed] transition-colors">
+                        <a href="mailto:sales@transtelcommunications.co" className="w-full py-2 bg-[#1d1d1f] text-white rounded-full text-sm font-medium hover:bg-[#333] transition-colors text-center block">
                             Contact Sales
-                        </button>
+                        </a>
                         {(specSheet || existingSpecSheet || manualSpecSheet) && (
                             <button className="w-full py-2 border border-gray-300 text-[#1d1d1f] rounded-full text-sm font-medium hover:border-gray-800 transition-colors">
                                 Download Spec Sheet
