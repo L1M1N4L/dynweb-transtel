@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 import { ProductService } from '../../services/productService';
 import { PuffLoader } from 'react-spinners';
 import SEO from '../common/SEO';
@@ -14,17 +13,12 @@ const ProductCategories = () => {
         const fetchCategories = async () => {
             try {
                 const data = await ProductService.getAllCategories();
-
-                // Transform data if necessary to match display requirements
                 const formatted = data.map(cat => ({
                     id: cat.id,
                     title: cat.title,
-                    // Use 'background' from category object, fallback to 'image' (derived), then to default
                     image: cat.background || cat.image || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
-                    icon: cat.icon, // Can be null
                     description: cat.description || 'Explore our solutions'
                 }));
-
                 setCategories(formatted);
             } catch (error) {
                 console.error("Failed to load categories", error);
@@ -32,31 +26,38 @@ const ProductCategories = () => {
                 setLoading(false);
             }
         };
-
         fetchCategories();
     }, []);
 
     if (loading) {
         return (
             <div className="fixed inset-0 z-50 flex justify-center items-center bg-[#f5f5f7]">
-                <PuffLoader color="#2563eb" size={60} speedMultiplier={0.8} />
+                <PuffLoader color="#1d1d1f" size={60} speedMultiplier={0.8} />
             </div>
         );
     }
 
     return (
-        <section className="py-16 bg-[#f5f5f7]">
+        <div className="bg-[#f5f5f7] min-h-screen pt-32 pb-20">
             <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-[#1d1d1f] mb-12 text-center tracking-tight">
-                    Enterprise Solutions
-                </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Compact header */}
+                <div className="mb-12 text-center">
+                    <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-[#1d1d1f] mb-3">
+                        Our Products
+                    </h1>
+                    <p className="text-lg text-[#86868b] max-w-xl mx-auto leading-relaxed">
+                        Enterprise communication hardware and infrastructure built for every environment.
+                    </p>
+                </div>
+
+                {/* Category Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {categories.map((category) => (
                         <div
                             key={category.id}
                             onClick={() => navigate(`/product/${category.id}`)}
-                            className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer bg-white shadow-sm hover:shadow-xl transition-all duration-500"
+                            className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer"
                         >
                             {/* Background Image */}
                             <div className="absolute inset-0">
@@ -65,32 +66,31 @@ const ProductCategories = () => {
                                     alt={category.title}
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
-                                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/60 transition-colors duration-500" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-black/80 group-hover:via-black/30 transition-all duration-500" />
                             </div>
 
                             {/* Content */}
-                            <div className="absolute inset-0 p-8 flex flex-col justify-end text-white">
-                                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                    {/* Icon (if available) - Hidden on hover to save space? Or keep it? User didn't specify, keeping plain. */}
-
-                                    <h3 className="text-2xl font-bold mb-2">{category.title}</h3>
-
-                                    <div className="overflow-hidden max-h-0 group-hover:max-h-40 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
-                                        <p className="text-gray-200 mb-4 line-clamp-2 text-sm">
+                            <div className="absolute inset-0 p-7 flex flex-col justify-end">
+                                <div className="transform translate-y-1 group-hover:translate-y-0 transition-transform duration-500">
+                                    <h3 className="text-2xl font-semibold tracking-tight text-white mb-1">
+                                        {category.title}
+                                    </h3>
+                                    <div className="overflow-hidden max-h-0 group-hover:max-h-24 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+                                        <p className="text-white/70 text-sm leading-relaxed mb-3 line-clamp-2">
                                             {category.description}
                                         </p>
-
-                                        <div className="flex items-center gap-2 text-sm font-semibold text-blue-400 group-hover:text-blue-300">
-                                            View Products <ArrowRight size={16} />
-                                        </div>
+                                        <span className="text-sm font-medium text-white">
+                                            View Products ›
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
+
             </div>
-        </section>
+        </div>
     );
 };
 

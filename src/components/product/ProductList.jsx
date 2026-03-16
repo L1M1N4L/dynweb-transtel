@@ -44,8 +44,8 @@ export default function ProductList() {
     };
 
     if (loading) return (
-        <div className="fixed inset-0 z-50 flex justify-center items-center bg-white">
-            <PuffLoader color="#2563eb" size={60} speedMultiplier={0.8} />
+        <div className="fixed inset-0 z-50 flex justify-center items-center bg-[#f5f5f7]">
+            <PuffLoader color="#1d1d1f" size={60} speedMultiplier={0.8} />
         </div>
     );
 
@@ -78,11 +78,11 @@ export default function ProductList() {
                     </nav>
 
                     {/* Header */}
-                    <header className="mb-12">
-                        <h1 className="font-bold text-5xl tracking-tight mb-3 text-[#1d1d1f]">
+                    <header className="mb-12 border-b border-[#e5e5e5] pb-10">
+                        <h1 className="font-semibold text-5xl tracking-tight mb-3 text-[#1d1d1f]">
                             {currentCategoryTitle}
                         </h1>
-                        <p className="text-[#86868b] text-xl leading-relaxed m-0 font-normal">
+                        <p className="text-[#86868b] text-lg leading-relaxed m-0">
                             Explore our curated collection of {currentCategoryTitle?.toLowerCase()} products.
                         </p>
                     </header>
@@ -119,36 +119,28 @@ function BreadcrumbLink({ text, to }) {
     );
 }
 
-// Product card component
 function ProductCard({ product, categoryId }) {
     return (
-        <RouterLink to={`/product/${categoryId}/${product.id}`}>
-            <article
-                className="
-                    flex flex-col rounded-[18px] overflow-hidden bg-white 
-                    transition-all duration-300 cubic-bezier(0.4, 0, 0.2, 1) cursor-pointer
-                    hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.05)]
-                    shadow-[0_2px_8px_rgba(0,0,0,0.04),0_0_0_1px_rgba(0,0,0,0.05)]
-                    h-full group
-                "
-            >
-                <div className="overflow-hidden bg-[#f5f5f7] aspect-[1.5] relative">
-                    <img
-                        src={product.image || "https://i.imgur.com/Cjq8e8g.png"}
-                        alt={product.name}
-                        className="w-full h-full object-cover transition-transform duration-500 cubic-bezier(0.4, 0, 0.2, 1) group-hover:scale-105"
-                        referrerPolicy="no-referrer"
-                    />
-                </div>
-                <div className="p-6 flex flex-col flex-grow">
-                    <h3 className="font-semibold text-[19px] mb-2 leading-tight text-[#1d1d1f]">
-                        {product.name}
-                    </h3>
-                    <p className="text-[#86868b] leading-relaxed text-sm m-0 line-clamp-3">
-                        {product.description}
-                    </p>
-                </div>
-            </article>
+        <RouterLink to={`/product/${categoryId}/${product.id}`} className="group block rounded-2xl overflow-hidden bg-white border border-[#e5e5e5] hover:border-[#c6c6c8] transition-colors duration-300 cursor-pointer h-full flex flex-col">
+            <div className="overflow-hidden bg-[#f5f5f7] aspect-[1.5] relative">
+                <img
+                    src={product.image || "https://i.imgur.com/Cjq8e8g.png"}
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    referrerPolicy="no-referrer"
+                />
+            </div>
+            <div className="p-6 flex flex-col flex-grow">
+                <h3 className="font-semibold text-[18px] tracking-tight mb-1.5 leading-tight text-[#1d1d1f]">
+                    {product.name}
+                </h3>
+                <p className="text-[#86868b] leading-relaxed text-sm m-0 line-clamp-3 mb-4">
+                    {product.description}
+                </p>
+                <span className="mt-auto text-sm font-medium text-[#0066cc] group-hover:underline">
+                    Learn more ›
+                </span>
+            </div>
         </RouterLink>
     );
 }

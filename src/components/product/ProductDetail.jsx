@@ -22,12 +22,9 @@ export default function ProductDetail() {
                     ProductService.getProductById(category, productId),
                     ProductService.getAllCategories()
                 ]);
-                console.log('Product Data:', prodData); // Debug: Check what data we're getting
-                console.log('Spec Sheet URL:', prodData?.specSheetUrl); // Debug: Check spec sheet specifically
                 setProduct(prodData);
                 setCategories(catsData);
-                // Set initial main image
-                setMainImage(prodData?.image || prodData?.images?.[0] || "https://i.imgur.com/Cjq8e8g.png");
+                setMainImage(prodData?.image || prodData?.images?.[0] || null);
             } catch (error) {
                 console.error("Failed to fetch data", error);
             } finally {
@@ -38,131 +35,155 @@ export default function ProductDetail() {
     }, [category, productId]);
 
     if (loading) return (
-        <div className="fixed inset-0 z-50 flex justify-center items-center bg-white">
-            <PuffLoader color="#2563eb" size={60} speedMultiplier={0.8} />
+        <div className="fixed inset-0 z-50 flex justify-center items-center bg-[#f5f5f7]">
+            <PuffLoader color="#1d1d1f" size={60} speedMultiplier={0.8} />
         </div>
     );
-    if (!product) return <div className="py-20 text-center">Product not found</div>;
 
-    // Handle Category Click for sidebar
-    const handleCategoryClick = (catId) => {
-        navigate(`/product/${catId}`);
-    };
+    if (!product) return (
+        <div className="py-40 text-center bg-[#f5f5f7] min-h-screen">
+            <p className="text-[#86868b] text-lg">Product not found.</p>
+            <RouterLink to="/product" className="mt-4 inline-block text-[#0066cc] hover:underline">← Back to Products</RouterLink>
+        </div>
+    );
+
+    const handleCategoryClick = (catId) => navigate(`/product/${catId}`);
+    const galleryImages = product.images || (product.image ? [product.image] : []);
+    const categoryTitle = categories.find(c => c.id === category)?.title;
 
     return (
-        <div className="flex min-h-screen bg-white font-sans pt-[64px]">
-            {/* Sidebar (Reused) */}
+        <div className="flex min-h-screen bg-[#f5f5f7] font-sans pt-[64px]">
             <CategorySidebar
                 categories={categories}
                 selectedCategory={category}
                 onSelect={handleCategoryClick}
             />
 
-            <div className="flex-grow flex flex-col">
-                <div className="max-w-[1200px] w-full mx-auto px-6 py-12 lg:px-12">
-                    {/* Breadcrumbs matching new style */}
+            <div className="flex-grow">
+                <div className="max-w-[1100px] w-full mx-auto px-8 py-12 lg:px-12">
+
+                    {/* Breadcrumbs */}
                     <nav className="flex items-center gap-2 mb-10 text-sm text-[#86868b]">
-                        <RouterLink to="/" className="hover:text-black">Home</RouterLink>
-                        <span className="select-none">›</span>
-                        <RouterLink to="/product" className="hover:text-black">Products</RouterLink>
-                        <span className="select-none">›</span>
-                        <RouterLink to={`/product/${category}`} className="hover:text-black">{categories.find(c => c.id === category)?.title || category}</RouterLink>
-                        <span className="select-none">›</span>
+                        <RouterLink to="/" className="hover:text-[#1d1d1f] transition-colors">Home</RouterLink>
+                        <span>›</span>
+                        <RouterLink to="/product" className="hover:text-[#1d1d1f] transition-colors">Products</RouterLink>
+                        <span>›</span>
+                        <RouterLink to={`/product/${category}`} className="hover:text-[#1d1d1f] transition-colors">{categoryTitle || category}</RouterLink>
+                        <span>›</span>
                         <span className="text-[#1d1d1f] font-medium">{product.name}</span>
                     </nav>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+
                         {/* Left: Images */}
-                        <div className="space-y-6">
-                            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-[#f5f5f7] border border-[rgba(0,0,0,0.08)] flex items-center justify-center">
+                        <div className="space-y-4">
+                            {/* Main image */}
+                            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-white border border-[#e5e5e5] flex items-center justify-center">
                                 {mainImage ? (
-                                    <img src={mainImage} alt={product.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                                    <img
+                                        src={mainImage}
+                                        alt={product.name}
+                                        className="w-full h-full object-cover"
+                                        referrerPolicy="no-referrer"
+                                    />
                                 ) : (
                                     <div className="text-center p-8">
-                                        <h2 className="text-3xl font-bold mb-2 text-[#1d1d1f]">{product.name}</h2>
-                                        <p className="text-gray-500">Image Preview</p>
+                                        <p className="text-2xl font-semibold tracking-tight text-[#1d1d1f]">{product.name}</p>
+                                        <p className="text-[#86868b] mt-1 text-sm">No image available</p>
                                     </div>
                                 )}
                             </div>
-                            {/* Scrolling Image Gallery - Manual Horizontal Scroll */}
-                            <div className="w-full relative group/gallery">
-                                {/* Left Arrow */}
-                                <button
-                                    onClick={() => {
-                                        document.getElementById('gallery-scroll').scrollBy({ left: -200, behavior: 'smooth' });
-                                    }}
-                                    className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-full shadow-md text-gray-800 opacity-0 group-hover/gallery:opacity-100 transition-opacity disabled:opacity-0"
-                                >
-                                    <ChevronLeft size={20} />
-                                </button>
 
-                                {/* Right Arrow */}
-                                <button
-                                    onClick={() => {
-                                        document.getElementById('gallery-scroll').scrollBy({ left: 200, behavior: 'smooth' });
-                                    }}
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-full shadow-md text-gray-800 opacity-0 group-hover/gallery:opacity-100 transition-opacity"
-                                >
-                                    <ChevronRight size={20} />
-                                </button>
-
-                                <div
-                                    id="gallery-scroll"
-                                    className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent"
-                                >
-                                    {(product.images || [product.image || "https://i.imgur.com/Cjq8e8g.png"]).map((img, i) => (
-                                        <div
-                                            key={i}
-                                            onClick={() => setMainImage(img)}
-                                            className={`w-32 h-32 flex-shrink-0 rounded-xl bg-[#f5f5f7] border-2 cursor-pointer hover:border-black transition-all duration-300 overflow-hidden snap-center ${mainImage === img ? 'border-black' : 'border-[rgba(0,0,0,0.08)]'
-                                                }`}
-                                        >
-                                            <img src={img} alt={`Product view ${i}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                                        </div>
-                                    ))}
+                            {/* Thumbnail strip */}
+                            {galleryImages.length > 1 && (
+                                <div className="relative group/gallery">
+                                    <button
+                                        onClick={() => document.getElementById('gallery-scroll').scrollBy({ left: -160, behavior: 'smooth' })}
+                                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white border border-[#e5e5e5] rounded-full opacity-0 group-hover/gallery:opacity-100 transition-opacity"
+                                    >
+                                        <ChevronLeft size={16} />
+                                    </button>
+                                    <button
+                                        onClick={() => document.getElementById('gallery-scroll').scrollBy({ left: 160, behavior: 'smooth' })}
+                                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white border border-[#e5e5e5] rounded-full opacity-0 group-hover/gallery:opacity-100 transition-opacity"
+                                    >
+                                        <ChevronRight size={16} />
+                                    </button>
+                                    <div
+                                        id="gallery-scroll"
+                                        className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory"
+                                        style={{ scrollbarWidth: 'none' }}
+                                    >
+                                        {galleryImages.map((img, i) => (
+                                            <button
+                                                key={i}
+                                                onClick={() => setMainImage(img)}
+                                                className={`w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all snap-center ${mainImage === img
+                                                        ? 'border-[#1d1d1f]'
+                                                        : 'border-[#e5e5e5] hover:border-[#c6c6c8]'
+                                                    }`}
+                                            >
+                                                <img src={img} alt={`View ${i + 1}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
 
                         {/* Right: Info */}
-                        <div className="pt-4">
-                            <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-[#1d1d1f] tracking-tight">{product.name}</h1>
-                            <div className="prose prose-lg text-[#86868b] leading-relaxed">
-                                <p className="mb-8 text-xl font-light">{product.description || "Product description goes here."}</p>
+                        <div className="pt-2">
+                            {categoryTitle && (
+                                <p className="text-xs font-semibold text-[#86868b] tracking-widest uppercase mb-3">{categoryTitle}</p>
+                            )}
+                            <h1 className="text-4xl lg:text-5xl font-semibold tracking-tight text-[#1d1d1f] mb-6">
+                                {product.name}
+                            </h1>
+                            <p className="text-lg text-[#86868b] leading-relaxed mb-10">
+                                {product.description || "Product description goes here."}
+                            </p>
 
-                                <div className="border-t border-gray-100 pt-8 mt-8">
-                                    <h3 className="text-[#1d1d1f] font-semibold text-lg mb-4">Key Features</h3>
-                                    <ul className="space-y-3 list-disc pl-5">
-                                        {(product.features && product.features.length > 0) ? (
-                                            product.features.map((feature, index) => (
-                                                <li key={index}>{feature}</li>
-                                            ))
-                                        ) : (
-                                            <>
-                                                <li>Enterprise-grade security and reliability</li>
-                                                <li>Seamless integration with existing infrastructure</li>
-                                                <li>24/7 dedicated support capability</li>
-                                                <li>Advanced configuration options</li>
-                                            </>
-                                        )}
-                                    </ul>
-                                </div>
+                            {/* Features */}
+                            <div className="border-t border-[#e5e5e5] pt-8 mb-10">
+                                <h2 className="text-xs font-bold tracking-widest text-[#1d1d1f] uppercase mb-6">Key Features</h2>
+                                <ul className="space-y-3">
+                                    {(product.features && product.features.length > 0) ? (
+                                        product.features.map((feature, index) => (
+                                            <li key={index} className="flex items-start gap-3">
+                                                <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#1d1d1f] flex-shrink-0" />
+                                                <span className="text-[#86868b] text-sm leading-relaxed">{feature}</span>
+                                            </li>
+                                        ))
+                                    ) : (
+                                        ["Enterprise-grade security and reliability", "Seamless integration with existing infrastructure", "24/7 dedicated support capability", "Advanced configuration options"].map((f, i) => (
+                                            <li key={i} className="flex items-start gap-3">
+                                                <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#1d1d1f] flex-shrink-0" />
+                                                <span className="text-[#86868b] text-sm leading-relaxed">{f}</span>
+                                            </li>
+                                        ))
+                                    )}
+                                </ul>
                             </div>
 
-                            <div className="mt-10 flex gap-4">
-                                <button className="px-8 py-3 bg-[#0071e3] text-white rounded-full font-medium hover:bg-[#0077ed] transition-colors">
+                            {/* CTAs */}
+                            <div className="flex gap-3 flex-wrap">
+                                <RouterLink
+                                    to="/contact"
+                                    className="px-8 py-3.5 bg-[#1d1d1f] text-white rounded-full font-semibold hover:bg-[#333] transition-colors text-sm"
+                                >
                                     Contact Sales
-                                </button>
+                                </RouterLink>
                                 {product.specSheetUrl && (
                                     <button
                                         onClick={() => window.open(product.specSheetUrl, '_blank')}
-                                        className="px-8 py-3 border border-gray-300 text-[#1d1d1f] rounded-full font-medium hover:border-gray-800 transition-colors"
+                                        className="px-8 py-3.5 border border-[#d2d2d7] text-[#1d1d1f] rounded-full font-semibold hover:border-[#1d1d1f] transition-colors text-sm"
                                     >
                                         Download Spec Sheet
                                     </button>
                                 )}
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

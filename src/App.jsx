@@ -8,6 +8,7 @@ import ProductCategories from './components/product/ProductCategories';
 import ProductList from './components/product/ProductList';
 import ProductDetail from './components/product/ProductDetail';
 import SolutionPage from './pages/SolutionPage';
+import SolutionDetail from './pages/SolutionDetail';
 import SupportPage from './pages/SupportPage';
 import ContactPage from './pages/ContactPage';
 import HelpPage from './pages/HelpPage';
@@ -28,6 +29,7 @@ export default function App() {
             <Route path=":category/:productId" element={<ProductDetail />} />
           </Route>
           <Route path="solution" element={<SolutionPage />} />
+          <Route path="solution/:industry" element={<SolutionDetail />} />
           <Route path="support" element={<SupportPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="help" element={<HelpPage />} />

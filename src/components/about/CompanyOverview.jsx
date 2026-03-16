@@ -9,7 +9,7 @@ export default function CompanyOverview() {
                 <p className="text-xs font-semibold text-[#86868b] tracking-widest uppercase mb-4">Who We Are</p>
 
                 {/* Statement */}
-                <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-[#1d1d1f] leading-tight mb-16 max-w-3xl">
+                <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-[#1d1d1f] leading-tight mb-16 max-w-3xl">
                     Reliable. Scalable.{' '}
                     <span className="text-[#86868b]">Future-Ready.</span>
                 </h2>

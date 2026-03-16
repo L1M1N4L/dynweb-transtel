@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Facebook, Instagram, Youtube, Phone, MapPin } from 'lucide-react';
+import { Instagram, Youtube, MapPin } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import toast from 'react-hot-toast';
 import { saveContactSubmission } from '../services/contactService';
@@ -9,7 +9,6 @@ export default function ContactPage() {
         firstName: '',
         lastName: '',
         email: '',
-        countryCode: '',
         phone: '',
         message: ''
     });
@@ -25,23 +24,13 @@ export default function ContactPage() {
 
     const socialLinks = [
         {
-            name: 'Facebook',
-            url: 'https://www.facebook.com/transtelcommunications/',
-            icon: Facebook
-        },
-        {
             name: 'Instagram',
-            url: 'https://www.instagram.com/transtelcommunications/',
+            url: 'https://www.instagram.com/TranstelGlobal',
             icon: Instagram
         },
         {
-            name: 'WhatsApp',
-            url: 'https://api.whatsapp.com/send?phone=15617474466',
-            icon: Phone
-        },
-        {
             name: 'YouTube',
-            url: 'https://www.youtube.com/@transtelcommunications',
+            url: 'https://www.youtube.com/@TranstelGlobal',
             icon: Youtube
         }
     ];
@@ -194,7 +183,6 @@ export default function ContactPage() {
                 lastName: formData.lastName,
                 fullName: fullName,
                 email: formData.email,
-                countryCode: formData.countryCode,
                 phone: formData.phone,
                 message: formData.message
             });
@@ -207,7 +195,6 @@ export default function ContactPage() {
                     from_name: fullName,
                     from_email: formData.email,
                     from_phone: formData.phone,
-                    country_code: formData.countryCode,
                     message: formData.message,
                     reply_to: formData.email
                 },
@@ -224,7 +211,6 @@ export default function ContactPage() {
                 firstName: '',
                 lastName: '',
                 email: '',
-                countryCode: '',
                 phone: '',
                 message: ''
             });
@@ -240,165 +226,165 @@ export default function ContactPage() {
     };
 
     return (
-        <div className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
-            {/* Hero Section */}
-            <div className="text-center mb-16">
-                <h1 className="text-6xl font-semibold text-gray-900 mb-5 tracking-tight leading-tight">
-                    Contact our team
-                </h1>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light">
-                    Got any questions about the product or scaling on our platform? We're here to help.
-                    Chat to our friendly team 24/7 and get onboard in less than 5 minutes.
-                </p>
-            </div>
+        <div className="bg-[#f5f5f7] min-h-screen">
 
-            <div className="grid lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
-                {/* Left Column - Contact Form */}
-                <div>
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="grid grid-cols-2 gap-4">
+            {/* Hero */}
+            <section className="text-center pt-40 pb-20 px-6">
+                <p className="text-xs font-semibold text-[#86868b] tracking-widest uppercase mb-4">Contact</p>
+                <h1 className="text-5xl md:text-7xl font-semibold tracking-tight text-[#1d1d1f] mb-6">
+                    We'd love to<br />
+                    <span className="text-[#86868b]">hear from you.</span>
+                </h1>
+                <p className="text-xl text-[#86868b] max-w-2xl mx-auto leading-relaxed">
+                    Whether you're exploring a deployment or need technical guidance, our team is ready to help.
+                </p>
+            </section>
+
+            {/* Main Content */}
+            <section className="bg-white border-t border-b border-[#e5e5e5]">
+                <div className="max-w-6xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-24">
+
+                    {/* Form */}
+                    <div>
+                        <h2 className="text-xs font-bold tracking-widest text-[#1d1d1f] uppercase mb-10">Send a Message</h2>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-2">First name</label>
+                                    <input
+                                        type="text"
+                                        name="firstName"
+                                        value={formData.firstName}
+                                        onChange={handleChange}
+                                        disabled={isSubmitting}
+                                        className="w-full px-4 py-3 bg-[#f5f5f7] border border-[#d2d2d7] rounded-xl text-[#1d1d1f] placeholder-[#86868b] focus:outline-none focus:border-[#1d1d1f] transition-colors disabled:opacity-50"
+                                        placeholder="First"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-2">Last name</label>
+                                    <input
+                                        type="text"
+                                        name="lastName"
+                                        value={formData.lastName}
+                                        onChange={handleChange}
+                                        disabled={isSubmitting}
+                                        className="w-full px-4 py-3 bg-[#f5f5f7] border border-[#d2d2d7] rounded-xl text-[#1d1d1f] placeholder-[#86868b] focus:outline-none focus:border-[#1d1d1f] transition-colors disabled:opacity-50"
+                                        placeholder="Last"
+                                        required
+                                    />
+                                </div>
+                            </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-900 mb-2.5">First name</label>
+                                <label className="block text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-2">Email</label>
                                 <input
-                                    type="text"
-                                    name="firstName"
-                                    value={formData.firstName}
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
                                     onChange={handleChange}
                                     disabled={isSubmitting}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                                    placeholder="First name"
+                                    className="w-full px-4 py-3 bg-[#f5f5f7] border border-[#d2d2d7] rounded-xl text-[#1d1d1f] placeholder-[#86868b] focus:outline-none focus:border-[#1d1d1f] transition-colors disabled:opacity-50"
+                                    placeholder="you@company.com"
                                     required
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-900 mb-2.5">Last name</label>
-                                <input
-                                    type="text"
-                                    name="lastName"
-                                    value={formData.lastName}
-                                    onChange={handleChange}
-                                    disabled={isSubmitting}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                                    placeholder="Last name"
-                                    required
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-900 mb-2.5">Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                disabled={isSubmitting}
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                                placeholder="you@company.com"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-900 mb-2.5">Phone number</label>
-                            <div className="flex gap-3">
-                                <select
-                                    name="countryCode"
-                                    value={formData.countryCode}
-                                    onChange={handleChange}
-                                    disabled={isSubmitting}
-                                    className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    <option value="">Code</option>
-                                    <option value="US">US</option>
-                                    <option value="ID">ID</option>
-                                    <option value="TW">TW</option>
-                                    <option value="AU">AU</option>
-                                    <option value="NZ">NZ</option>
-                                    <option value="LK">LK</option>
-                                    <option value="Others">Others</option>
-                                </select>
+                                <label className="block text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-2">Phone number</label>
                                 <input
                                     type="tel"
                                     name="phone"
                                     value={formData.phone}
                                     onChange={handleChange}
                                     disabled={isSubmitting}
-                                    className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full px-4 py-3 bg-[#f5f5f7] border border-[#d2d2d7] rounded-xl text-[#1d1d1f] placeholder-[#86868b] focus:outline-none focus:border-[#1d1d1f] transition-colors disabled:opacity-50"
                                     placeholder="+1 (555) 000-0000"
                                     required
                                 />
                             </div>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-900 mb-2.5">Message</label>
-                            <textarea
-                                name="message"
-                                value={formData.message}
-                                onChange={handleChange}
+                            <div>
+                                <label className="block text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-2">Message</label>
+                                <textarea
+                                    name="message"
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    disabled={isSubmitting}
+                                    className="w-full px-4 py-3 bg-[#f5f5f7] border border-[#d2d2d7] rounded-xl text-[#1d1d1f] placeholder-[#86868b] focus:outline-none focus:border-[#1d1d1f] transition-colors h-36 resize-none disabled:opacity-50"
+                                    placeholder="Tell us about your project..."
+                                    required
+                                />
+                            </div>
+                            <button
+                                type="submit"
                                 disabled={isSubmitting}
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white outline-none h-36 resize-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                                placeholder="Leave us a message..."
-                                required
-                            ></textarea>
-                        </div>
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-full bg-gray-900 text-white font-medium py-3.5 rounded-xl hover:bg-gray-800 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-900"
-                        >
-                            {isSubmitting ? 'Sending...' : 'Send message'}
-                        </button>
-                    </form>
-                </div>
+                                className="w-full bg-[#1d1d1f] text-white font-semibold py-4 rounded-full hover:bg-[#333] transition-colors disabled:opacity-50 disabled:cursor-not-allowed tracking-tight"
+                            >
+                                {isSubmitting ? 'Sending…' : 'Send Message'}
+                            </button>
+                        </form>
+                    </div>
 
-                {/* Right Column - Contact Info */}
-                <div className="space-y-10">
-                    {/* Office Contacts */}
-                    <div>
-                        <h2 className="text-2xl font-semibold text-gray-900 mb-6 tracking-tight">Office Contacts</h2>
-                        <div className="grid grid-cols-2 gap-3">
-                            {offices.map((office) => (
-                                <div key={office.country} className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
-                                    <div className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <MapPin className="w-4 h-4 text-gray-600" />
-                                    </div>
-                                    <div>
-                                        <p className="font-semibold text-gray-900 mb-0.5 text-sm">{office.country}</p>
+                    {/* Right Info */}
+                    <div className="space-y-16">
+
+                        {/* Global Offices */}
+                        <div>
+                            <h2 className="text-xs font-bold tracking-widest text-[#1d1d1f] uppercase mb-8">Global Offices</h2>
+                            <ul className="divide-y divide-[#e5e5e5]">
+                                {offices.map((office) => (
+                                    <li key={office.country} className="flex items-center justify-between py-4">
+                                        <div className="flex items-center gap-3">
+                                            <MapPin className="w-4 h-4 text-[#86868b] flex-shrink-0" />
+                                            <span className="text-[#1d1d1f] font-medium text-sm">{office.country}</span>
+                                        </div>
                                         <a
                                             href={`tel:${office.phone.replace(/\s/g, '')}`}
-                                            className="text-gray-600 hover:text-blue-600 transition text-xs"
+                                            className="text-[#86868b] hover:text-[#0066cc] transition-colors text-sm font-medium"
                                         >
-                                            Tel. {office.phone}
+                                            {office.phone}
                                         </a>
-                                    </div>
-                                </div>
-                            ))}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                    </div>
 
-                    {/* Social Media */}
-                    <div>
-                        <h2 className="text-2xl font-semibold text-gray-900 mb-6 tracking-tight">Connect with us</h2>
-                        <div className="grid grid-cols-2 gap-3">
-                            {socialLinks.map((social) => {
-                                const Icon = social.icon;
-                                return (
-                                    <a
-                                        key={social.name}
-                                        href={social.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center justify-center gap-2 px-5 py-3.5 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all border border-gray-100"
-                                        title={social.name}
-                                    >
-                                        <Icon className="w-5 h-5 text-gray-700" />
-                                        <span className="text-sm font-medium text-gray-700">{social.name}</span>
-                                    </a>
-                                );
-                            })}
+                        {/* Email */}
+                        <div>
+                            <h2 className="text-xs font-bold tracking-widest text-[#1d1d1f] uppercase mb-4">Email</h2>
+                            <a
+                                href="mailto:info@transtelcommunications.co"
+                                className="text-[#0066cc] hover:underline text-base font-medium"
+                            >
+                                info@transtelcommunications.co
+                            </a>
                         </div>
+
+                        {/* Social */}
+                        <div>
+                            <h2 className="text-xs font-bold tracking-widest text-[#1d1d1f] uppercase mb-6">Follow Us</h2>
+                            <div className="flex gap-4">
+                                {socialLinks.map((social) => {
+                                    const Icon = social.icon;
+                                    return (
+                                        <a
+                                            key={social.name}
+                                            href={social.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 px-5 py-2.5 border border-[#d2d2d7] rounded-full text-sm font-medium text-[#1d1d1f] hover:bg-[#1d1d1f] hover:text-white hover:border-[#1d1d1f] transition-all"
+                                        >
+                                            <Icon className="w-4 h-4" />
+                                            {social.name}
+                                        </a>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-            </div>
+            </section>
+
         </div>
     );
 }
