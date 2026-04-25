@@ -41,9 +41,14 @@ await build({
         '/help',
       ],
       renderer: new vitePrerender.PuppeteerRenderer({
-        injectProperty: '__PRERENDER_INJECTED',
-        inject: { prerendered: true },
-        renderAfterTime: 4000, // wait 4s for React + Firebase to settle, then snapshot
+        renderAfterTime: 4000,
+        headless: true,
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu',
+        ],
       }),
     }),
   ],
