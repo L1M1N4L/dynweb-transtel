@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { solutionData } from '../data/solutionData';
+import SEO from '../components/common/SEO';
 
 export default function SolutionPage() {
     const industries = Object.values(solutionData);
@@ -12,6 +13,12 @@ export default function SolutionPage() {
 
     return (
         <div className="bg-[#f5f5f7] min-h-screen pt-32 pb-20">
+            <SEO
+                title="Industry Solutions"
+                description="Transtel Communications delivers purpose-built communication architectures for healthcare, hospitality, corporate offices, government, and education. Explore our industry solutions."
+                url="/solution"
+                keywords="PABX solutions, hospital nurse call system, hotel PABX, government telephony, school campus communication, enterprise voice infrastructure"
+            />
 
             {/* Clean Typography Hero */}
             <section className="text-center px-6 mb-24">

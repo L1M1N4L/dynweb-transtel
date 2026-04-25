@@ -1,0 +1,82 @@
+# Transtel Communications
+
+> Global provider of enterprise communication infrastructure — PABX systems, Nurse Call, Voice Loggers, Voice Gateways, GPON fiber networks, and IP Telephones for demanding deployments worldwide.
+
+Transtel Communications has delivered mission-critical communication technology to hospitals, hotels, governments, schools, and corporations for decades. Headquartered in Jupiter, Florida, USA, with offices in Taiwan, Australia, New Zealand, and Sri Lanka, Transtel operates as a global OEM and systems integrator specializing in on-premise, cloud-independent telephony infrastructure.
+
+## Company
+
+- **Full Name**: Transtel Communications
+- **Website**: https://transtelcommunications.co
+- **Email**: info@transtelcommunications.co
+- **Headquarters**: 1562 Park Ln S, Jupiter, FL 33458, United States — Phone: +1 (561) 747-4466
+- **Regional Offices**:
+  - Taiwan: +886 922 570 628
+  - Australia: (02) 9415 0100
+  - New Zealand: +64 (9) 260 4009
+  - Sri Lanka: +94 771 075 589
+- **Social**: [Instagram](https://www.instagram.com/TranstelGlobal) · [YouTube](https://www.youtube.com/@TranstelGlobal)
+
+## Products
+
+### PABX Systems
+Private Automatic Branch Exchange systems for small businesses to large enterprises.
+- [IPX-100](/product/PABX/IPX-100) — Compact PABX for small businesses
+- [IPX-800](/product/PABX/IPX-800) — Scalable PABX for mid-sized enterprises
+- [VP-500](/product/PABX/VP-500) — Robust voice platform
+- [VP-3000](/product/PABX/VP-3000) — High-capacity enterprise voice server
+
+### IP Telephones
+Professional IP and analog telephone endpoints for offices, hotels, and campuses.
+- [IPV-3786](/product/Telephone/IPV-3786) — High-end IP Video Phone
+- [IP-77F1](/product/Telephone/IP-77F1) — Standard office IP Phone
+- [IPV-78H](/product/Telephone/IPV-78H) — HD Voice IP Phone
+- [IPV-72H](/product/Telephone/IPV-72H) — Entry-level IP Phone
+- [IP-76](/product/Telephone/IP-76) — Basic business phone
+
+### Nurse Call Systems
+Hospital-grade patient communication systems compliant with healthcare regulations.
+- [AH-99PS](/product/Nurse Call/AH-99PS) — Patient station unit
+- [AH-99BN](/product/Nurse Call/AH-99BN) — Bathroom pull cord unit
+- [AK-77](/product/Nurse Call/AK-77) — Corridor light indicator
+
+### Voice Loggers
+Multi-channel call recording for compliance, legal, and quality assurance.
+- [VL-100](/product/Voice Logger/VL-100) — Single-channel logger
+- [VL-400](/product/Voice Logger/VL-400) — Multi-channel enterprise logger
+
+### Voice Gateways
+Hardware gateways bridging analog/digital PSTN lines to IP networks.
+- [VG-200](/product/Voice Gateway/VG-200) — Analog (FXO/FXS) to VoIP gateway
+- [VG-400](/product/Voice Gateway/VG-400) — E1/T1 digital gateway
+
+### GPON — Fiber Optic Networks
+Gigabit Passive Optical Network infrastructure for campuses and multi-floor buildings.
+- [OLT-1000](/product/GPON/OLT-1000) — Optical Line Terminal
+- [ONT-500](/product/GPON/ONT-500) — Optical Network Terminal
+
+## Industry Solutions
+
+### [Hotels & Hospitality](/solution/hospitality)
+End-to-end infrastructure connecting front desks, back offices, and guest rooms. GPON fiber-to-the-room (FTTR) reduces cabling by up to 80%. PABX integrates with PMS platforms such as Oracle Opera for automated check-in/out, wake-up calls, and real-time guest billing.
+
+### [Hospitals & Healthcare](/solution/healthcare)
+Mission-critical clinical communication with integrated Nurse Call and PABX. Multi-color corridor lights signal call priority. SIP integration routes patient alarms to roaming staff on wireless endpoints. Voice Gateways bridge legacy analog hospital infrastructure to modern IP networks.
+
+### [Corporate Offices](/solution/corporate)
+High-capacity PABX supporting thousands of concurrent SIP extensions across multi-site enterprises. Multi-channel Voice Loggers for QA and legal compliance. SIP trunking for cost reduction and E1/T1 gateways for carrier compatibility.
+
+### [Government & Public Sector](/solution/government)
+Fully on-premise, air-gappable PABX deployments with no cloud dependency. Auditable Voice Loggers with cryptographic immutability for legal compliance. GPON campus networks with EMI immunity — spans up to 20km from a single OLT.
+
+### [Education & Schools](/solution/education)
+Campus-wide telephony for classrooms, administration, and emergencies. Emergency IP paging for lockdown broadcasts. GPON backbone reduces cabling cost across sprawling campuses with zero-power passive splitters.
+
+## Key Pages
+
+- [Home](https://transtelcommunications.co/) — Overview of products and capabilities
+- [Products](https://transtelcommunications.co/product) — Full product catalogue by category
+- [Solutions](https://transtelcommunications.co/solution) — Industry-specific architecture guides
+- [About](https://transtelcommunications.co/about) — Company history and mission
+- [Contact](https://transtelcommunications.co/contact) — Global office contacts and enquiry form
+- [Transtel Billing](https://billing.transtelcommunications.co/) — Offline-first PABX call accounting desktop software for Windows

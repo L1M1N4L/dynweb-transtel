@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { solutionData } from '../data/solutionData';
 import { productData } from '../data/productData';
+import SEO from '../components/common/SEO';
 
 export default function SolutionDetail() {
     const { industry } = useParams();
@@ -23,6 +24,12 @@ export default function SolutionDetail() {
 
     return (
         <div className="bg-white min-h-screen pb-24">
+            <SEO
+                title={`${data.title} Solutions`}
+                description={data.overview}
+                url={`/solution/${data.id}`}
+                keywords={`${data.title.toLowerCase()} communication, ${data.title.toLowerCase()} PABX, Transtel ${data.title.toLowerCase()} solution, ${data.subtitle.toLowerCase()}`}
+            />
 
             {/* Immersive Edge-to-Edge Hero Header */}
             <div className="relative w-full h-[70vh] min-h-[500px] bg-black">

@@ -3,6 +3,7 @@ import { Instagram, Youtube, MapPin } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import toast from 'react-hot-toast';
 import { saveContactSubmission } from '../services/contactService';
+import SEO from '../components/common/SEO';
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
@@ -227,6 +228,12 @@ export default function ContactPage() {
 
     return (
         <div className="bg-[#f5f5f7] min-h-screen">
+            <SEO
+                title="Contact Us"
+                description="Get in touch with Transtel Communications. Reach our global offices in the USA, Taiwan, Australia, New Zealand, and Sri Lanka. Email us at info@transtelcommunications.co."
+                url="/contact"
+                keywords="contact Transtel Communications, PABX support, enterprise communication enquiry, Transtel offices"
+            />
 
             {/* Hero */}
             <section className="text-center pt-40 pb-20 px-6">

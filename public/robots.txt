@@ -1,5 +1,19 @@
 User-agent: *
 Allow: /
 Disallow: /secure-dashboard
+Disallow: /login
 
-Sitemap: https://dynweb-transtel.vercel.app/sitemap.xml
+# AI crawlers - allow llms.txt
+User-agent: GPTBot
+Allow: /llms.txt
+Allow: /
+
+User-agent: Claude-Web
+Allow: /llms.txt
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /llms.txt
+Allow: /
+
+Sitemap: https://transtelcommunications.co/sitemap.xml

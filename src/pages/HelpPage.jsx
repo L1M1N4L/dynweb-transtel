@@ -1,9 +1,16 @@
 import React from 'react';
 import { HelpCircle, Book, MessageCircle, Search, FileText } from 'lucide-react';
+import SEO from '../components/common/SEO';
 
 export default function HelpPage() {
     return (
         <div className="pt-32 pb-16 px-6 max-w-4xl mx-auto">
+            <SEO
+                title="Help & Documentation"
+                description="Transtel Communications help center. Browse documentation, FAQs, and get support for PABX, Nurse Call, Voice Logger, and all Transtel communication products."
+                url="/help"
+                keywords="Transtel help, PABX documentation, nurse call FAQ, communication system support"
+            />
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-gray-900 mb-4">Help Center</h1>
                 <p className="text-lg text-gray-600">

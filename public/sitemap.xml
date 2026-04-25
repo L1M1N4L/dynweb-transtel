@@ -1,39 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://dynweb-transtel.vercel.app/</loc>
-    <lastmod>2024-03-20</lastmod>
+    <loc>https://transtelcommunications.co/</loc>
+    <lastmod>2026-04-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://dynweb-transtel.vercel.app/about</loc>
-    <lastmod>2024-03-20</lastmod>
+    <loc>https://transtelcommunications.co/about</loc>
+    <lastmod>2026-04-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dynweb-transtel.vercel.app/product</loc>
-    <lastmod>2024-03-20</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://transtelcommunications.co/product</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dynweb-transtel.vercel.app/solution</loc>
-    <lastmod>2024-03-20</lastmod>
+    <loc>https://transtelcommunications.co/solution</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://transtelcommunications.co/solution/hospitality</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://transtelcommunications.co/solution/healthcare</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://transtelcommunications.co/solution/corporate</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://transtelcommunications.co/solution/government</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://transtelcommunications.co/solution/education</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://transtelcommunications.co/contact</loc>
+    <lastmod>2026-04-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dynweb-transtel.vercel.app/support</loc>
-    <lastmod>2024-03-20</lastmod>
+    <loc>https://transtelcommunications.co/support</loc>
+    <lastmod>2026-04-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dynweb-transtel.vercel.app/contact</loc>
-    <lastmod>2024-03-20</lastmod>
+    <loc>https://transtelcommunications.co/help</loc>
+    <lastmod>2026-04-25</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
 </urlset>
